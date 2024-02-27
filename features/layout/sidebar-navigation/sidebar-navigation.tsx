@@ -21,12 +21,6 @@ export function SidebarNavigation() {
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // const emailSupportPopUp = () => {
-  //   const subject = encodeURIComponent("Support Request:");
-  //   const to = encodeURIComponent("support@prolog-app.com");
-  //   window.location.href = `mailto:${to}?subject=${subject}`;
-  // };
-
   return (
     <div
       className={classNames(
