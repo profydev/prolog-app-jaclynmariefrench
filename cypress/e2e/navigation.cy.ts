@@ -39,6 +39,22 @@ describe("Sidebar Navigation", () => {
         );
     });
 
+    it("correct logo is shown in collapse and when switched to landscape", () => {
+      //collapse the menu
+      cy.get("nav").contains("Collapse").click();
+
+      //check that small logo is present
+      cy.get('img[src="/icons/logo-small.svg"]').should("be.visible");
+      cy.get('img[src="/icons/logo-large.svg"]').should("not.exist");
+
+      //flip viewport to tall
+      cy.viewport(900, 1025);
+
+      //check that large logo is present
+      cy.get('img[src="/icons/logo-small.svg"]').should("not.exist");
+      cy.get('img[src="/icons/logo-large.svg"]').should("be.visible");
+    });
+
     it("is collapsible", () => {
       // collapse navigation
       cy.get("nav").contains("Collapse").click();
