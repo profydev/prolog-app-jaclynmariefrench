@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes } from "@config/routes";
 import classNames from "classnames";
 import { NavigationContext } from "./navigation-context";
@@ -21,6 +21,30 @@ export function SidebarNavigation() {
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  //State for if it's mobile view or not and accounts for the server side rendering delay
+  const [isMobileView, setIsMobileView] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 1023 : false,
+  );
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setIsMobileView(window.innerWidth <= 1023);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleWindowResize);
+
+      //Cleans event listener
+      return () => {
+        window.removeEventListener("resize", handleWindowResize);
+      };
+    }
+  }, []);
+
+  console.log("isMobileMenuOpen:", isMobileMenuOpen);
+  console.log("isSidebarCollapsed:", isSidebarCollapsed);
+  console.log("isMobileView:", isMobileView);
+
   return (
     <div
       className={classNames(
@@ -38,9 +62,11 @@ export function SidebarNavigation() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={
-              isSidebarCollapsed
-                ? "/icons/logo-small.svg"
-                : "/icons/logo-large.svg"
+              isMobileView
+                ? "/icons/logo-large.svg"
+                : isSidebarCollapsed
+                  ? "/icons/logo-small.svg"
+                  : "/icons/logo-large.svg"
             }
             alt="logo"
             className={styles.logo}
