@@ -41,10 +41,6 @@ export function SidebarNavigation() {
     }
   }, []);
 
-  console.log("isMobileMenuOpen:", isMobileMenuOpen);
-  console.log("isSidebarCollapsed:", isSidebarCollapsed);
-  console.log("isMobileView:", isMobileView);
-
   return (
     <div
       className={classNames(
