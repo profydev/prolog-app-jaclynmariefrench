@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@api/projects";
 import { ProjectStatus, type Project } from "@api/projects.types";
 
+// Converts project status data from 'info' to 'stable' and 'error' to 'critical'
 function transformStatus(status: string): ProjectStatus {
   switch (status) {
     case "info":

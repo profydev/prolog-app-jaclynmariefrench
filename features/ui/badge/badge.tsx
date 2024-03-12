@@ -28,7 +28,10 @@ export function Badge({
   color = BadgeColor.primary,
 }: BadgeProps) {
   return (
-    <div className={classNames(styles.container, styles[size], styles[color])}>
+    <div
+      className={classNames(styles.container, styles[size], styles[color])}
+      data-testid={`badge-${color}`}
+    >
       {children}
     </div>
   );
