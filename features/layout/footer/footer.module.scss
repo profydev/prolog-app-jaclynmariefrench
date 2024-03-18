@@ -1,0 +1,39 @@
+@import "styles/color";
+
+.footer {
+  background-color: $gray-50;
+
+  // background-color: blue($color: #000000);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 10px;
+  bottom: 0;
+  width: 100%;
+  margin-top: auto;
+}
+
+.version {
+  margin-left: 1.37em;
+  color: $gray-400;
+  font-weight: 100;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 1.5em;
+  gap: 1.5em;
+  color: $gray-500;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.logo {
+  justify-self: end;
+  margin-right: 2.5em;
+}
