@@ -3,7 +3,7 @@ import packageJson from "package.json";
 
 export function Footer() {
   return (
-    <div className={styles.footer}>
+    <div className={styles.footer} data-cy="footer">
       <p className={styles.version}>Version: {packageJson.version}</p>
       <nav className={styles.links}>
         <a href="#">Docs</a>
