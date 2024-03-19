@@ -1,10 +1,9 @@
 import styles from "./footer.module.scss";
-import packageJson from "package.json";
 
 export function Footer() {
   return (
     <div className={styles.footer} data-cy="footer">
-      <p className={styles.version}>Version: {packageJson.version}</p>
+      <p className={styles.version}>Version: {process.env.appVersion}</p>
       <nav className={styles.links}>
         <a href="#">Docs</a>
         <a href="#">API</a>
