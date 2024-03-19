@@ -96,7 +96,7 @@ export function SidebarNavigation({ className }: SidebarNavigationProps) {
             isMobileMenuOpen && styles.isMobileMenuOpen,
           )}
         >
-          <ul className={styles.linkList}>
+          <ul className={styles.linkList} data-testid="sidebar-navigation">
             {menuItems.map((menuItem, index) => (
               <MenuItemLink
                 key={index}
@@ -106,7 +106,7 @@ export function SidebarNavigation({ className }: SidebarNavigationProps) {
               />
             ))}
           </ul>
-          <ul className={styles.list}>
+          <ul className={styles.list} data-testid="sidebar-navigation">
             <MenuItemLink
               text="Support"
               iconSrc="/icons/support.svg"
