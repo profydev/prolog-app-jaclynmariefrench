@@ -16,7 +16,11 @@ const menuItems = [
   { text: "Settings", iconSrc: "/icons/settings.svg", href: Routes.settings },
 ];
 
-export function SidebarNavigation() {
+type SidebarNavigationProps = {
+  className?: string;
+};
+
+export function SidebarNavigation({ className }: SidebarNavigationProps) {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -46,6 +50,7 @@ export function SidebarNavigation() {
       className={classNames(
         styles.container,
         isSidebarCollapsed && styles.isCollapsed,
+        className,
       )}
     >
       <div
@@ -91,7 +96,7 @@ export function SidebarNavigation() {
             isMobileMenuOpen && styles.isMobileMenuOpen,
           )}
         >
-          <ul className={styles.linkList}>
+          <ul className={styles.linkList} data-testid="sidebar-navigation">
             {menuItems.map((menuItem, index) => (
               <MenuItemLink
                 key={index}
@@ -101,7 +106,7 @@ export function SidebarNavigation() {
               />
             ))}
           </ul>
-          <ul className={styles.list}>
+          <ul className={styles.list} data-testid="sidebar-navigation">
             <MenuItemLink
               text="Support"
               iconSrc="/icons/support.svg"

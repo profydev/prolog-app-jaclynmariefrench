@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { SidebarNavigation } from "../sidebar-navigation";
 import styles from "./page-container.module.scss";
+import { Footer } from "../footer";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -12,14 +13,14 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
   const documentTitle = `ProLog - ${title}`;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-cy="container">
       <Head>
         <title>{documentTitle}</title>
         <meta name="description" content="Error monitoring" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SidebarNavigation />
+      <SidebarNavigation className={styles.navigation} />
       <main className={styles.main}>
         <div className={styles.contentContainer}>
           <h1 className={styles.title}>{title}</h1>
@@ -27,6 +28,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           {children}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
