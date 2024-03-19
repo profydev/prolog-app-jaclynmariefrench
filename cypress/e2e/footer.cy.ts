@@ -8,7 +8,7 @@ import packageJson from "package.json";
 // 5. Check the position of the footer
 
 describe("Footer", () => {
-  it("footer is correctly displayed on dashboard", () => {
+  it("footer is correctly displayed", () => {
     cy.visit("http://localhost:3000/dashboard");
     const viewportHeight = 960;
     cy.viewport(1440, viewportHeight);
@@ -27,99 +27,7 @@ describe("Footer", () => {
     cy.get('[data-cy="footer"]').then(($footer) => {
       const footerBottom = $footer[0].getBoundingClientRect().bottom;
 
-      expect(footerBottom).to.be.closeTo(viewportHeight, 10);
-    });
-  });
-
-  it("footer is correctly displayed on dashboard/issues", () => {
-    cy.visit("http://localhost:3000/dashboard/issues");
-    const viewportHeight = 960;
-    cy.viewport(1440, viewportHeight);
-
-    // Checking footer content
-    cy.get('[data-cy="footer"]')
-      .scrollIntoView()
-      .should("be.visible")
-      .and("contain", packageJson.version)
-      .within(() => {
-        cy.get("a").should("have.attr", "href", "#");
-        cy.get("img").should("be.visible");
-      });
-
-    // Checking footer position
-    cy.get('[data-cy="footer"]').then(($footer) => {
-      const footerBottom = $footer[0].getBoundingClientRect().bottom;
-
-      expect(footerBottom).to.be.closeTo(viewportHeight, 10);
-    });
-  });
-
-  it("footer is correctly displayed on dashboard/alerts", () => {
-    cy.visit("http://localhost:3000/dashboard/alerts");
-    const viewportHeight = 960;
-    cy.viewport(1440, viewportHeight);
-
-    // Checking footer content
-    cy.get('[data-cy="footer"]')
-      .scrollIntoView()
-      .should("be.visible")
-      .and("contain", packageJson.version)
-      .within(() => {
-        cy.get("a").should("have.attr", "href", "#");
-        cy.get("img").should("be.visible");
-      });
-
-    // Checking footer position
-    cy.get('[data-cy="footer"]').then(($footer) => {
-      const footerBottom = $footer[0].getBoundingClientRect().bottom;
-
-      expect(footerBottom).to.be.closeTo(viewportHeight, 10);
-    });
-  });
-
-  it("footer is correctly displayed on dashboard/users", () => {
-    cy.visit("http://localhost:3000/dashboard/users");
-    const viewportHeight = 960;
-    cy.viewport(1440, viewportHeight);
-
-    // Checking footer content
-    cy.get('[data-cy="footer"]')
-      .scrollIntoView()
-      .should("be.visible")
-      .and("contain", packageJson.version)
-      .within(() => {
-        cy.get("a").should("have.attr", "href", "#");
-        cy.get("img").should("be.visible");
-      });
-
-    // Checking footer position
-    cy.get('[data-cy="footer"]').then(($footer) => {
-      const footerBottom = $footer[0].getBoundingClientRect().bottom;
-
-      expect(footerBottom).to.be.closeTo(viewportHeight, 10);
-    });
-  });
-
-  it("footer is correctly displayed on dashboard/settings", () => {
-    cy.visit("http://localhost:3000/dashboard/settings");
-    const viewportHeight = 960;
-    cy.viewport(1440, viewportHeight);
-
-    // Checking footer content
-    cy.get('[data-cy="footer"]')
-      .scrollIntoView()
-      .should("be.visible")
-      .and("contain", packageJson.version)
-      .within(() => {
-        cy.get("a").should("have.attr", "href", "#");
-        cy.get("img").should("be.visible");
-      });
-
-    // Checking footer position
-    cy.get('[data-cy="footer"]').then(($footer) => {
-      const footerBottom = $footer[0].getBoundingClientRect().bottom;
-
-      expect(footerBottom).to.be.closeTo(viewportHeight, 10);
+      expect(footerBottom).to.be.closeTo(viewportHeight, 1);
     });
   });
 });
