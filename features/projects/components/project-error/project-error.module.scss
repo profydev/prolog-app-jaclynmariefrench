@@ -1,0 +1,37 @@
+@import "styles/color";
+@import "styles/font";
+
+.error-container {
+  background-color: $error-25;
+  color: $error-700;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: $error-300 solid 1px;
+  border-radius: 8px;
+  font: $text-sm-medium;
+  max-width: 1080px;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.left-banner,
+.right-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.5px;
+}
+
+.right-banner {
+  justify-self: end;
+  color: $error-700;
+}
+
+.alert-circle {
+  color: $error-600;
+}
+
+.error-arrow {
+  color: $error-700;
+}
