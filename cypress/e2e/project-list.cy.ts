@@ -4,15 +4,26 @@ import mockProjects from "../fixtures/projects.json";
 describe("Project List", () => {
   beforeEach(() => {
     // setup request mock
-    cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-      fixture: "projects.json",
+    cy.intercept("GET", "https://prolog-api.profy.dev/project", (req) => {
+      req.reply({
+        delayMs: 2000, // delay the response by 2 seconds
+        body: mockProjects,
+      });
     }).as("getProjects");
 
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
+  });
+
+  it("displays the loading screen", () => {
+    //Checks that loading screen is visible
+    cy.get('[data-testid="loading-container"]').should("be.visible");
 
     // wait for request to resolve
     cy.wait("@getProjects");
+
+    //Ensures that project list appears after loading
+    cy.get('[data-testid="loading-container"]').should("not.exist");
   });
 
   context("desktop resolution", () => {

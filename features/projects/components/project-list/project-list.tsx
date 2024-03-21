@@ -8,7 +8,10 @@ export function ProjectList() {
 
   if (isLoading) {
     return (
-      <div className={styles["loading-container"]}>
+      <div
+        className={styles["loading-container"]}
+        data-testid="loading-container"
+      >
         <LoadingScreen />
       </div>
     );
