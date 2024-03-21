@@ -11,9 +11,5 @@ export default {
   },
 } as Meta<typeof ProjectError>;
 
-const Template: StoryFn<typeof ProjectError> = () => (
-  <div style={{ width: 1440 }}>
-    <ProjectError />
-  </div>
-);
+const Template: StoryFn<typeof ProjectError> = () => <ProjectError />;
 export const Default = Template.bind({});
