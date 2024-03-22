@@ -1,0 +1,44 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/breakpoint";
+
+.error-container {
+  background-color: color.$error-25;
+  color: color.$error-700;
+  display: grid;
+  grid-template-columns: minmax(40px, 2fr) minmax(20px, 1fr);
+  border: color.$error-300 solid 1px;
+  border-radius: 0.5rem;
+  font: font.$text-sm-medium;
+  width: 94vw;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  @media (min-width: breakpoint.$desktop) {
+    grid-template-columns: 1fr 1fr;
+    width: 95vw;
+  }
+}
+
+.left-banner,
+.right-banner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: 0.5px;
+  word-wrap: break-word;
+}
+
+.right-banner {
+  justify-self: end;
+  color: color.$error-700;
+}
+
+.alert-circle {
+  color: color.$error-600;
+}
+
+.error-arrow {
+  color: color.$error-700;
+}
