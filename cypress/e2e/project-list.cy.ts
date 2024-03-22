@@ -75,5 +75,39 @@ describe("Project List", () => {
             .should("have.attr", "href", "/dashboard/issues");
         });
     });
+
+    it("error screen and page reload successful", () => {
+      //set up failed GET call
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", (req) => {
+        req.reply({
+          statusCode: 500,
+          body: { message: "An error occurred" },
+        });
+      }).as("getProjects");
+      //triggers failed GET call
+      cy.reload();
+
+      //finding project-error component
+      cy.get('[data-testid="project-error"]', { timeout: 10000 }).should(
+        "be.visible",
+      );
+
+      //set up a successful GET call
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", (req) => {
+        req.reply({
+          delayMs: 2000,
+          body: mockProjects,
+        });
+      }).as("getProjectsRetry");
+
+      //clicking the try again button
+      cy.get('[data-testid="project-error"] button').click();
+
+      //waiting for the retry to resolve
+      cy.wait("@getProjectsRetry");
+
+      //Checking that the project-error component is no longer showing
+      cy.get('[data-testid="project-error"]').should("not.exist");
+    });
   });
 });
