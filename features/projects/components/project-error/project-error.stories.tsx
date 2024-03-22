@@ -1,6 +1,6 @@
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
-import { ProjectError } from "./project-error";
+import { ProjectError, ProjectErrorProps } from "./project-error";
 
 export default {
   title: "project/ProjectError",
@@ -11,5 +11,9 @@ export default {
   },
 } as Meta<typeof ProjectError>;
 
-const Template: StoryFn<typeof ProjectError> = () => <ProjectError />;
-export const Default = Template.bind({});
+const Template: StoryFn<ProjectErrorProps> = (args) => (
+  <ProjectError {...args} />
+);
+export const Default = Template.bind({
+  onRetry: () => alert("Retry button clicked"),
+});

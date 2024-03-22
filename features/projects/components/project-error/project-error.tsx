@@ -1,7 +1,11 @@
 import styles from "./project-error.module.scss";
 import { Button } from "@features/ui";
 
-export function ProjectError() {
+export type ProjectErrorProps = {
+  onRetry: () => void;
+};
+
+export function ProjectError({ onRetry }: ProjectErrorProps) {
   return (
     <div className={styles["error-container"]}>
       <div className={styles["left-banner"]}>
@@ -17,7 +21,7 @@ export function ProjectError() {
       </div>
 
       {/*will need to be a button*/}
-      <Button className={styles["right-banner"]}>
+      <Button className={styles["right-banner"]} onClick={onRetry}>
         <p>Try again</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

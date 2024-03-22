@@ -2,9 +2,10 @@ import { ProjectCard } from "../project-card";
 import { useGetProjects } from "../../api/use-get-projects";
 import styles from "./project-list.module.scss";
 import { LoadingScreen } from "@features/ui";
+import { ProjectError } from "../project-error";
 
 export function ProjectList() {
-  const { data, isLoading, isError, error } = useGetProjects();
+  const { data, isLoading, isError, error, refetch } = useGetProjects();
 
   if (isLoading) {
     return (
@@ -19,7 +20,11 @@ export function ProjectList() {
 
   if (isError) {
     console.error(error);
-    return <div>Error: {error.message}</div>;
+    return (
+      <div data-testid="project-error">
+        <ProjectError onRetry={refetch} />
+      </div>
+    );
   }
 
   return (
