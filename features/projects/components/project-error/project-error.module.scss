@@ -33,6 +33,9 @@
 .right-banner {
   justify-self: end;
   color: color.$error-700;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .alert-circle {
