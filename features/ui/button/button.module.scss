@@ -53,15 +53,19 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$primary-700;
     }
 
     &:focus {
-      background-color: darkblue;
+      background-color: color.$primary-600;
+      box-shadow: 0 0 0 5px color.$primary-100;
+      border: none;
     }
 
     &:disabled {
-      background-color: gray;
+      background-color: color.$primary-200;
+      box-shadow: 0 1px 2px 0 #1018280d;
+      border: none;
     }
   }
 
@@ -73,15 +77,21 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$primary-100;
+      box-shadow: 0 1px 2px 0 #1018280d;
     }
 
     &:focus {
-      background-color: darkblue;
+      background-color: color.$primary-50;
+      box-shadow: 0 0 0 5px color.$primary-100;
+      border: none;
     }
 
     &:disabled {
-      background-color: gray;
+      background-color: color.$primary-25;
+      color: color.$primary-300;
+      box-shadow: 0 1px 2px 0 #1018280d;
+      border: none;
     }
   }
 
@@ -93,15 +103,26 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$gray-50;
+      box-shadow: 0 1px 2px 0 #1018280d;
+      color: color.$gray-800;
+      border: 1px solid color.$gray-300;
     }
 
     &:focus {
-      background-color: darkblue;
+      background-color: white;
+      border: 1px solid color.$gray-300;
+      color: color.$gray-700;
+      box-shadow:
+        0 0 0 4px #f2f4f7,
+        0 1px 2px 0 #1018280d;
     }
 
     &:disabled {
-      background-color: gray;
+      background-color: white;
+      color: color.$gray-300;
+      box-shadow: 0 1px 2px 0 #1018280d;
+      border: 1px solid color.$gray-200;
     }
   }
 
@@ -111,15 +132,18 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$primary-50;
+      border: 1px solid color.$primary-50;
+      border-radius: 8px;
     }
 
     &:focus {
-      background-color: darkblue;
+      color: color.$primary-700;
+      border: none;
     }
 
     &:disabled {
-      background-color: gray;
+      color: color.$gray-300;
     }
   }
 
@@ -129,15 +153,17 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$gray-50;
+      color: color.$gray-600;
+      border-radius: 8px;
     }
 
     &:focus {
-      background-color: darkblue;
+      color: color.$gray-500;
     }
 
     &:disabled {
-      background-color: gray;
+      color: color.$gray-300;
     }
   }
 
@@ -149,15 +175,22 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$error-700;
+      border: solid 1px color.$error-700;
+      box-shadow: 0 1px 2px 0 #1018280d;
     }
 
     &:focus {
-      background-color: darkblue;
+      border: solid 1px color.$error-600;
+      box-shadow:
+        0 0 0 4px #fee4e2,
+        0 1px 2px 0 #1018280d;
     }
 
     &:disabled {
-      background-color: gray;
+      background-color: color.$error-200;
+      border: solid 1px color.$error-200;
+      box-shadow: 0 1px 2px 0 #1018280d;
     }
   }
 
@@ -167,15 +200,18 @@
 
     // button states
     &:hover {
-      background-color: lightblue;
+      background-color: color.$error-50;
+      border: solid 1px color.$error-50;
+      border-radius: 8px;
     }
 
     &:focus {
-      background-color: darkblue;
+      border: none;
+      color: color.$error-700;
     }
 
     &:disabled {
-      background-color: gray;
+      color: color.$error-300;
     }
   }
 
