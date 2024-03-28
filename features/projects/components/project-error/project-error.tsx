@@ -1,3 +1,4 @@
+import { UnstyledButton } from "@features/ui";
 import styles from "./project-error.module.scss";
 
 export type ProjectErrorProps = {
@@ -18,9 +19,7 @@ export function ProjectError({ onRetry }: ProjectErrorProps) {
         </div>
         <p>There was a problem while loading the project data</p>
       </div>
-
-      {/*will need to be a button*/}
-      <button className={styles["right-banner"]} onClick={onRetry}>
+      <UnstyledButton className={styles["right-banner"]} onClick={onRetry}>
         <p>Try again</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -28,7 +27,7 @@ export function ProjectError({ onRetry }: ProjectErrorProps) {
           alt="arrow"
           className={styles["error-arrow"]}
         />
-      </button>
+      </UnstyledButton>
     </div>
   );
 }
