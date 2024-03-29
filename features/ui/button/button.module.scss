@@ -1,18 +1,231 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/space";
+@use "@styles/shadow";
+
 .button {
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: space.$s2;
+  border-radius: space.$s2;
+  box-shadow: shadow.$xs;
+  font: font.$text-md-medium;
+}
 
-  /* remove default button styles */
+.icon {
+  height: 100%;
+}
+
+// button sizes
+.small {
+  height: 2.25rem;
+  padding: 0.5rem 0.875rem;
+  font: font.$text-sm-medium;
+  letter-spacing: 0.0313rem;
+
+  &.iconOnly {
+    padding: 0.5rem;
+  }
+}
+
+.medium {
+  height: space.$s10;
+  padding: 0.625rem space.$s4;
+  font: font.$text-sm-medium;
+  letter-spacing: 0.0313rem;
+
+  &.iconOnly {
+    padding: 0.625rem;
+  }
+}
+
+.large {
+  height: 2.75rem;
+  padding: 0.625rem 1.125rem;
+  font: font.$text-md-medium;
+  letter-spacing: 0.0313rem;
+
+  &.iconOnly {
+    padding: 0.625rem;
+  }
+}
+
+.xlarge {
+  height: space.$s12;
+  padding: 0.75rem space.$s5;
+  font: font.$text-md-medium;
+  letter-spacing: 0.0313rem;
+
+  &.iconOnly {
+    padding: 0.75rem;
+  }
+}
+
+// button colors
+.primary.default,
+.primary.iconOnly {
+  border: 1px solid color.$primary-600;
+  background: color.$primary-600;
+  color: color.$white;
+
+  &:hover {
+    border: 1px solid color.$primary-700;
+    background: color.$primary-700;
+  }
+
+  &:focus {
+    border: 1px solid color.$primary-600;
+    background: color.$primary-600;
+    box-shadow:
+      0 1px 2px 0 rgb(16 24 40 / 5%),
+      0 0 0 4px #f4ebff;
+    outline: 4px solid color.$primary-100;
+  }
+
+  &:disabled {
+    border: 1px solid color.$primary-200;
+    background: color.$primary-200;
+  }
+}
+
+.secondary.default,
+.secondary.iconOnly {
+  border: 1px solid color.$primary-50;
+  background: color.$primary-50;
+  color: color.$primary-700;
+
+  &:hover {
+    border: 1px solid color.$primary-100;
+    background: color.$primary-100;
+  }
+
+  &:focus {
+    outline: 4px solid color.$primary-100;
+    border: 1px solid color.$primary-50;
+    background: color.$primary-50;
+    box-shadow:
+      0 1px 2px 0 rgb(16 24 40 / 5%),
+      0 0 0 4px #f4ebff;
+  }
+
+  &:disabled {
+    border: 1px solid color.$primary-25;
+    background: color.$primary-25;
+  }
+}
+
+.gray.default,
+.gray.iconOnly {
+  border: 1px solid color.$gray-300;
+  background: color.$white;
+  color: color.$gray-700;
+
+  &:hover {
+    background: color.$gray-50;
+    color: color.$gray-800;
+  }
+
+  &:focus {
+    border: 1px solid color.$gray-300;
+    background: color.$white;
+    box-shadow:
+      0 1px 2px 0 rgb(16 24 40 / 5%),
+      0 0 0 4px #f2f4f7;
+  }
+
+  &:disabled {
+    border: 1px solid color.$gray-200;
+    background: color.$white;
+    color: color.$gray-300;
+  }
+}
+
+.error.default,
+.error.iconOnly {
+  border: 1px solid color.$error-600;
+  background: color.$error-600;
+  color: color.$white;
+
+  &:hover {
+    border: 1px solid color.$error-700;
+    background: color.$error-700;
+  }
+
+  &:focus {
+    outline: 4px solid color.$error-100;
+    border: 1px solid color.$error-600;
+    background: color.$error-600;
+    box-shadow:
+      0 1px 2px 0 rgb(16 24 40 / 5%),
+      0 0 0 4px #fee4e2;
+  }
+
+  &:disabled {
+    border: 1px solid color.$error-200;
+    background: color.$error-200;
+  }
+}
+
+.primary.empty {
+  color: color.$primary-700;
   border: none;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  appearance: none;
+  box-shadow: none;
 
-  &::-moz-focus-inner {
-    border: 0;
-    padding: 0;
+  &:hover {
+    background: color.$primary-50;
+  }
+
+  &:focus {
+    color: color.$primary-700;
+    border: none;
+    outline: 4px solid color.$primary-100;
+  }
+
+  &:disabled {
+    color: color.$gray-300;
+  }
+}
+
+.gray.empty {
+  color: color.$gray-500;
+  border: none;
+  box-shadow: none;
+
+  // button states
+  &:hover {
+    background-color: color.$gray-50;
+    color: color.$gray-600;
+  }
+
+  &:focus {
+    color: color.$gray-500;
+    outline: 1px solid color.$gray-300;
+  }
+
+  &:disabled {
+    color: color.$gray-300;
+  }
+}
+
+.error.empty {
+  border: none;
+  color: color.$error-700;
+  box-shadow: none;
+
+  // button states
+  &:hover {
+    background-color: color.$error-50;
+    border: solid 1px color.$error-50;
+  }
+
+  &:focus {
+    border: none;
+    color: color.$error-700;
+    outline: 4px solid color.$error-100;
+  }
+
+  &:disabled {
+    color: color.$error-300;
   }
 }
