@@ -9,19 +9,40 @@ export enum ButtonSize {
   XLarge = "xlarge",
 }
 
+export enum ButtonColor {
+  Primary = "primary",
+  Secondary = "secondary",
+  Gray = "gray",
+  Error = "error",
+}
+
+export enum ButtonVariant {
+  Default = "default",
+  Empty = "empty",
+}
+
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: ButtonSize;
-  children: React.ReactNode;
+  color?: ButtonColor;
+  variant?: ButtonVariant;
 };
 
 export function Button({
   className,
   size = ButtonSize.Medium,
+  color = ButtonColor.Primary,
+  variant = ButtonVariant.Default,
   ...props
 }: ButtonProps) {
   return (
     <UnstyledButton
-      className={classNames(styles.button, styles[size], className)}
+      className={classNames(
+        styles.button,
+        styles[size],
+        styles[color],
+        styles[variant],
+        className,
+      )}
       {...props}
     />
   );
