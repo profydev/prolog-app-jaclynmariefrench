@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Button, ButtonColor, ButtonSize, ButtonVariant } from "./button";
+import { Button, ButtonColor, ButtonSize, ButtonVariant, ButtonIcon } from ".";
 
 const meta: Meta<typeof Button> = { title: "UI/Button", component: Button };
 
@@ -84,47 +84,37 @@ export const ErrorEmpty: Story = {
   },
 };
 
-// import React from "react";
-// import { Meta, StoryFn } from "@storybook/react";
-// import { Button } from "./button";
-// import { ReactComponent as IconPlaceholder} from '/Users/jaclynfrench/workspace/react-course/prolog-app-jaclynmariefrench/public/icons/message.svg';
+export const IconLeading: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    children: (
+      <>
+        <ButtonIcon src="/icons/icon-placeholder.svg" />
+        Button CTA
+      </>
+    ),
+  },
+};
 
-// export default {
-//   title: "UI/Button",
-//   component: Button,
-//   argTypes: {
-//     size: {
-//       options: ["small", "medium", "large", "xlarge"],
-//       control: { type: "radio" },
-//     },
-//     color: {
-//       options: [
-//         "primary",
-//         "secondary",
-//         "gray",
-//         "empty",
-//         "empty-gray",
-//         "error",
-//         "empty-error",
-//       ],
-//       control: { type: "radio" },
-//     },
-//     iconPosition: {
-//         options: ['none', 'leading', 'trailing', 'only'],
-//         control: { type: 'select' }
-//     }
-//   },
-// } as Meta<typeof Button>;
+export const IconTrailing: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    children: (
+      <>
+        Button CTA
+        <ButtonIcon src="/icons/icon-placeholder.svg" />
+      </>
+    ),
+  },
+};
 
-// const Template: StoryFn = (args) => <Button {...args} />;
-
-// export const Default = Template.bind({});
-// Default.args = {
-//   children: "Button",
-//   size: "small",
-//   color: "primary",
-//   // icon: <IconPlaceholder/>,
-//   iconPosition: "none"
-// };
-
-// // console.log(IconPlaceholder)
+export const IconOnly: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    children: <ButtonIcon src="/icons/icon-placeholder.svg" />,
+    variant: ButtonVariant.IconOnly,
+  },
+};
