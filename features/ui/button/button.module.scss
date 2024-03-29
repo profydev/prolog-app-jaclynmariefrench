@@ -4,229 +4,227 @@
 @use "@styles/shadow";
 
 .button {
-  cursor: pointer;
-
-  /* remove default button styles */
-  border: none;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  line-height: normal;
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-  appearance: none;
-
-  &::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-  }
-
-  // button sizes
-  &.small {
-    padding: space.$s2 0.875rem;
-    font: font.$text-sm-medium;
-    letter-spacing: 0.0313rem;
-  }
-
-  &.medium {
-    padding: space.$s3 1rem;
-    font: font.$text-sm-medium;
-    letter-spacing: 0.0313rem;
-  }
-
-  &.large {
-    padding: space.$s3 space.$s6;
-    font: font.$text-md-medium;
-    letter-spacing: 0.0313rem;
-  }
-
-  &.xlarge {
-    padding: space.$s3 space.$s6;
-    font: font.$text-md-medium;
-    letter-spacing: 0.0313rem;
-  }
-
-  // button colors
-  &.primary {
-    border: solid 1px;
-    border-radius: 8px;
-    background: color.$primary-600;
-    color: color.$white;
-
-    // button states
-    &:hover {
-      background-color: color.$primary-700;
-    }
-
-    &:focus {
-      background-color: color.$primary-600;
-      box-shadow: 0 0 0 5px color.$primary-100;
-      border: none;
-    }
-
-    &:disabled {
-      background-color: color.$primary-200;
-      box-shadow: shadow.$xs;
-      border: none;
-    }
-  }
-
-  &.secondary {
-    border: solid 1px color.$primary-50;
-    border-radius: 8px;
-    color: color.$primary-700;
-    background: color.$primary-50;
-
-    // button states
-    &:hover {
-      background-color: color.$primary-100;
-      box-shadow: shadow.$xs;
-    }
-
-    &:focus {
-      background-color: color.$primary-50;
-      box-shadow: 0 0 0 5px color.$primary-100;
-      border: none;
-    }
-
-    &:disabled {
-      background-color: color.$primary-25;
-      color: color.$primary-300;
-      box-shadow: shadow.$xs;
-      border: none;
-    }
-  }
-
-  &.gray {
-    border-radius: 8px;
-    color: color.$gray-700;
-    background: color.$white;
-    border: 1px solid color.$gray-300;
-
-    // button states
-    &:hover {
-      background-color: color.$gray-50;
-      box-shadow: shadow.$xs;
-      color: color.$gray-800;
-      border: 1px solid color.$gray-300;
-    }
-
-    &:focus {
-      background-color: color.$white;
-      border: 1px solid color.$gray-300;
-      color: color.$gray-700;
-      box-shadow:
-        0 0 0 4px #f2f4f7,
-        shadow.$xs;
-    }
-
-    &:disabled {
-      background-color: color.$white;
-      color: color.$gray-300;
-      box-shadow: shadow.$xs;
-      border: 1px solid color.$gray-200;
-    }
-  }
-
-  &.empty {
-    color: color.$primary-700;
-    border: none;
-
-    // button states
-    &:hover {
-      background-color: color.$primary-50;
-      border: 1px solid color.$primary-50;
-      border-radius: 8px;
-    }
-
-    &:focus {
-      color: color.$primary-700;
-      border: none;
-    }
-
-    &:disabled {
-      color: color.$gray-300;
-    }
-  }
-
-  &.empty-gray {
-    color: color.$gray-500;
-    border: none;
-
-    // button states
-    &:hover {
-      background-color: color.$gray-50;
-      color: color.$gray-600;
-      border-radius: 8px;
-    }
-
-    &:focus {
-      color: color.$gray-500;
-    }
-
-    &:disabled {
-      color: color.$gray-300;
-    }
-  }
-
-  &.error {
-    border: solid 1px;
-    border-radius: 8px;
-    background: color.$error-600;
-    color: color.$white;
-
-    // button states
-    &:hover {
-      background-color: color.$error-700;
-      border: solid 1px color.$error-700;
-      box-shadow: shadow.$xs;
-    }
-
-    &:focus {
-      border: solid 1px color.$error-600;
-      box-shadow:
-        0 0 0 4px #fee4e2,
-        shadow.$xs;
-    }
-
-    &:disabled {
-      background-color: color.$error-200;
-      border: solid 1px color.$error-200;
-      box-shadow: shadow.$xs;
-    }
-  }
-
-  &.empty-error {
-    border: none;
-    color: color.$error-700;
-
-    // button states
-    &:hover {
-      background-color: color.$error-50;
-      border: solid 1px color.$error-50;
-      border-radius: 8px;
-    }
-
-    &:focus {
-      border: none;
-      color: color.$error-700;
-    }
-
-    &:disabled {
-      color: color.$error-300;
-    }
-  }
-
-  // buttons with icons
-  &.leading {
-    padding-left: 1em;
-  }
-
-  &.trailing {
-    padding-right: 1em;
-  }
-
-  &.only {
-    padding: 0;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: space.$s2;
+  border-radius: space.$s2;
+  border: 1px solid color.$primary-600;
+  background: color.$primary-600;
+  box-shadow: shadow.$xs;
+  color: color.$white;
+  font: font.$text-md-medium;
 }
+
+// button sizes
+.small {
+  height: 2.25rem;
+  padding: 0 0.875rem;
+  font: font.$text-sm-medium;
+  letter-spacing: 0.0313rem;
+}
+
+.medium {
+  height: space.$s10;
+  padding: 0 space.$s4;
+  font: font.$text-sm-medium;
+  letter-spacing: 0.0313rem;
+}
+
+.large {
+  height: 2.75rem;
+  padding: 0 1.125rem;
+  font: font.$text-md-medium;
+  letter-spacing: 0.0313rem;
+}
+
+.xlarge {
+  height: space.$s12;
+  padding: 0 space.$s5;
+  font: font.$text-md-medium;
+  letter-spacing: 0.0313rem;
+}
+
+// // button colors
+// &.primary {
+//   border: solid 1px;
+//   border-radius: 8px;
+//   background: color.$primary-600;
+//   color: color.$white;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$primary-700;
+//   }
+
+//   &:focus {
+//     background-color: color.$primary-600;
+//     box-shadow: 0 0 0 5px color.$primary-100;
+//     border: none;
+//   }
+
+//   &:disabled {
+//     background-color: color.$primary-200;
+//     box-shadow: shadow.$xs;
+//     border: none;
+//   }
+// }
+
+// &.secondary {
+//   border: solid 1px color.$primary-50;
+//   border-radius: 8px;
+//   color: color.$primary-700;
+//   background: color.$primary-50;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$primary-100;
+//     box-shadow: shadow.$xs;
+//   }
+
+//   &:focus {
+//     background-color: color.$primary-50;
+//     box-shadow: 0 0 0 5px color.$primary-100;
+//     border: none;
+//   }
+
+//   &:disabled {
+//     background-color: color.$primary-25;
+//     color: color.$primary-300;
+//     box-shadow: shadow.$xs;
+//     border: none;
+//   }
+// }
+
+// &.gray {
+//   border-radius: 8px;
+//   color: color.$gray-700;
+//   background: color.$white;
+//   border: 1px solid color.$gray-300;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$gray-50;
+//     box-shadow: shadow.$xs;
+//     color: color.$gray-800;
+//     border: 1px solid color.$gray-300;
+//   }
+
+//   &:focus {
+//     background-color: color.$white;
+//     border: 1px solid color.$gray-300;
+//     color: color.$gray-700;
+//     box-shadow:
+//       0 0 0 4px #f2f4f7,
+//       shadow.$xs;
+//   }
+
+//   &:disabled {
+//     background-color: color.$white;
+//     color: color.$gray-300;
+//     box-shadow: shadow.$xs;
+//     border: 1px solid color.$gray-200;
+//   }
+// }
+
+// &.empty {
+//   color: color.$primary-700;
+//   border: none;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$primary-50;
+//     border: 1px solid color.$primary-50;
+//     border-radius: 8px;
+//   }
+
+//   &:focus {
+//     color: color.$primary-700;
+//     border: none;
+//   }
+
+//   &:disabled {
+//     color: color.$gray-300;
+//   }
+// }
+
+// &.empty-gray {
+//   color: color.$gray-500;
+//   border: none;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$gray-50;
+//     color: color.$gray-600;
+//     border-radius: 8px;
+//   }
+
+//   &:focus {
+//     color: color.$gray-500;
+//   }
+
+//   &:disabled {
+//     color: color.$gray-300;
+//   }
+// }
+
+// &.error {
+//   border: solid 1px;
+//   border-radius: 8px;
+//   background: color.$error-600;
+//   color: color.$white;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$error-700;
+//     border: solid 1px color.$error-700;
+//     box-shadow: shadow.$xs;
+//   }
+
+//   &:focus {
+//     border: solid 1px color.$error-600;
+//     box-shadow:
+//       0 0 0 4px #fee4e2,
+//       shadow.$xs;
+//   }
+
+//   &:disabled {
+//     background-color: color.$error-200;
+//     border: solid 1px color.$error-200;
+//     box-shadow: shadow.$xs;
+//   }
+// }
+
+// &.empty-error {
+//   border: none;
+//   color: color.$error-700;
+
+//   // button states
+//   &:hover {
+//     background-color: color.$error-50;
+//     border: solid 1px color.$error-50;
+//     border-radius: 8px;
+//   }
+
+//   &:focus {
+//     border: none;
+//     color: color.$error-700;
+//   }
+
+//   &:disabled {
+//     color: color.$error-300;
+//   }
+// }
+
+// // buttons with icons
+// &.leading {
+//   padding-left: 1em;
+// }
+
+// &.trailing {
+//   padding-right: 1em;
+// }
+
+// &.only {
+//   padding: 0;
+// }
