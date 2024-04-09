@@ -12,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
-  args: { children: "Label", checked: false },
+  args: { children: "Label", checked: false, indeterminate: false },
   render: function Render(args) {
     const [{ checked }, updateArgs] = useArgs();
     return (
@@ -23,4 +23,8 @@ export const Default: Story = {
       />
     );
   },
+};
+
+export const Uncontrolled: Story = {
+  args: { children: "Label", indeterminate: false },
 };

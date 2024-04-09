@@ -12,12 +12,17 @@
   width: space.$s4;
   height: space.$s4;
   color: color.$primary-600;
-}
 
-.check {
-  display: none;
-  width: 0.75rem;
-  height: 0.75rem;
+  & .check,
+  & .indeterminateCheck {
+    display: none;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  &.indeterminate .indeterminateCheck {
+    display: block;
+  }
 }
 
 .container {
@@ -35,10 +40,19 @@
     &:checked ~ .checkbox {
       border-color: color.$primary-600;
       background: color.$primary-50;
+
+      .check {
+        display: block;
+      }
     }
 
-    &:checked ~ .checkbox .check {
-      display: block;
+    &:indeterminate ~ .checkbox {
+      border-color: color.$primary-600;
+      background: color.$primary-50;
+
+      .indeterminateCheck {
+        display: block;
+      }
     }
   }
 }
