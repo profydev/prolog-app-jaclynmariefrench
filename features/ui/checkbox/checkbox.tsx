@@ -2,12 +2,29 @@ import classNames from "classnames";
 import styles from "./checkbox.module.scss";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 
-type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export enum CheckboxSize {
+  Small = "small",
+  Medium = "medium",
+}
+
+type CheckboxProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> & {
   indeterminate?: boolean;
+  size?: CheckboxSize;
 };
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   function Checkbox(
-    { children, className, style, checked, indeterminate, ...otherProps },
+    {
+      children,
+      className,
+      size = CheckboxSize.Medium,
+      style,
+      checked,
+      indeterminate,
+      ...otherProps
+    },
     ref,
   ) {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +42,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     }, [indeterminate]);
 
     return (
-      <label className={classNames(styles.container, className)} style={style}>
+      <label
+        className={classNames(styles.container, styles[size], className)}
+        style={style}
+      >
         <input
           {...otherProps}
           type="checkbox"
