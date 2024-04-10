@@ -77,9 +77,7 @@
   &:focus {
     border: 1px solid color.$primary-600;
     background: color.$primary-600;
-    box-shadow:
-      0 1px 2px 0 rgb(16 24 40 / 5%),
-      0 0 0 4px #f4ebff;
+    box-shadow: shadow.$xs, shadow.$focus-primary;
     outline: 4px solid color.$primary-100;
   }
 
@@ -104,9 +102,7 @@
     outline: 4px solid color.$primary-100;
     border: 1px solid color.$primary-50;
     background: color.$primary-50;
-    box-shadow:
-      0 1px 2px 0 rgb(16 24 40 / 5%),
-      0 0 0 4px #f4ebff;
+    box-shadow: shadow.$xs, shadow.$focus-primary;
   }
 
   &:disabled {
@@ -129,9 +125,8 @@
   &:focus {
     border: 1px solid color.$gray-300;
     background: color.$white;
-    box-shadow:
-      0 1px 2px 0 rgb(16 24 40 / 5%),
-      0 0 0 4px #f2f4f7;
+    box-shadow: shadow.$xs, shadow.$focus-gray;
+    outline: 4px solid color.$gray-100;
   }
 
   &:disabled {
