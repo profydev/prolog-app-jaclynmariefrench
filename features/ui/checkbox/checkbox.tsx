@@ -23,6 +23,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       style,
       checked,
       indeterminate,
+      disabled,
       ...otherProps
     },
     ref,
@@ -51,6 +52,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           type="checkbox"
           checked={checked}
           ref={inputRef}
+          disabled={disabled}
         />
         {/* ^^ input is the hidden checkbox*/}
         <span
@@ -89,7 +91,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             />
           </svg>
         </span>
-        {children}
+        <span>{children}</span>
       </label>
     );
   },

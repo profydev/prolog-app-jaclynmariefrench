@@ -88,4 +88,14 @@
       }
     }
   }
+
+  & input:disabled ~ .checkbox {
+    border: 1px solid color.$gray-200;
+    background: color.$gray-100;
+  }
+
+  & input:disabled ~ * {
+    color: color.$gray-300;
+    cursor: not-allowed;
+  }
 }
