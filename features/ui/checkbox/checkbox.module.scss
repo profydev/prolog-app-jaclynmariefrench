@@ -44,6 +44,12 @@
   }
 }
 
+.small .checkbox:hover,
+.medium .checkbox:hover {
+  border-color: color.$primary-600;
+  background: color.$primary-50;
+}
+
 .checkbox.indeterminate .indeterminateCheck {
   display: block;
 }
