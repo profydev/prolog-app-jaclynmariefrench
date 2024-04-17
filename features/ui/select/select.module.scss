@@ -4,31 +4,64 @@
 @use "@styles/shadow";
 
 .selectContainer {
+  position: relative;
+  margin-bottom: 18rem;
   display: flex;
   padding: 0.625rem 0.875rem;
   width: 18rem;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
   border-radius: 0.5rem;
   border: 1px solid color.$gray-300;
   background: color.$white;
   box-shadow: shadow.$xs;
-}
-
-.selectContainer select {
-  appearance: none;
-  appearance: none;
-  appearance: none;
-  border: none;
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-  flex: 1 0 0;
   font: font.$text-md-regular;
   color: color.$gray-900;
+  cursor: pointer;
 }
 
-.arrowIcon {
+.selectedBase {
+  background: color.$primary-25;
+}
+
+.options {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+  align-items: flex-start;
+  border-radius: 0.5rem;
+  background: color.$white;
+  box-shadow: shadow.$lg;
+  margin-top: 9rem;
+  display: flex;
+  padding: 0.25rem 0;
+  flex-direction: column;
+}
+
+.option {
+  cursor: pointer;
+  display: flex;
+  padding: 0.625rem 0.875rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-self: stretch;
+  color: color.$gray-900;
+  font: font.$text-md-regular;
+
+  &:hover {
+    background: color.$primary-50;
+  }
+}
+
+.option.selected {
+  background: color.$primary-25;
+}
+
+.arrowIcon,
+.checkIcon {
   width: 1.25rem;
   height: 1.25rem;
 }
