@@ -10,12 +10,13 @@ type SelectBoxProps = {
   options: Option[];
   onChange: (value: string) => void;
   placeholder: string;
+  disabled?: boolean;
 };
 
 export const SelectBox = forwardRef<
   { setValue: (value: string) => void },
   SelectBoxProps
->(({ options, onChange, placeholder }, ref) => {
+>(({ options, onChange, placeholder, disabled }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
@@ -33,7 +34,11 @@ export const SelectBox = forwardRef<
   }));
 
   return (
-    <div className={styles.selectContainer} onClick={() => setIsOpen(!isOpen)}>
+    <button
+      className={`${styles.selectContainer} ${selectedOption ? "" : styles.placeholder}`}
+      onClick={() => setIsOpen(!isOpen)}
+      disabled={disabled}
+    >
       <div className={styles.selectedBase}>
         {selectedOption ? selectedOption.label : placeholder}
       </div>
@@ -80,7 +85,7 @@ export const SelectBox = forwardRef<
           stroke-linejoin="round"
         />
       </svg>
-    </div>
+    </button>
   );
 });
 

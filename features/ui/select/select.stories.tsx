@@ -7,6 +7,7 @@ const meta: Meta<typeof SelectBox> = {
   argTypes: {
     options: { control: "object" },
     placeholder: { control: "text" },
+    disabled: { control: "boolean" },
   },
 };
 
@@ -21,6 +22,7 @@ export const Default: Story = {
       { value: "option2", label: "Option 2" },
     ],
     placeholder: "Please choose",
+    disabled: false,
   },
   render: (args) => (
     <SelectBox {...args} onChange={(value) => console.log(value)} />

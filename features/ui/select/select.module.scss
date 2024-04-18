@@ -19,6 +19,24 @@
   font: font.$text-md-regular;
   color: color.$gray-900;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border: 1px solid color.$primary-300;
+    box-shadow: shadow.$xs, shadow.$focus-primary;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    border: 1px solid color.$gray-300;
+    background: color.$gray-50;
+    box-shadow: shadow.$xs;
+    color: color.$gray-500;
+  }
+}
+
+.selectContainer.placeholder {
+  color: color.$gray-500;
 }
 
 .selectedBase {
@@ -34,7 +52,7 @@
   border-radius: 0.5rem;
   background: color.$white;
   box-shadow: shadow.$lg;
-  margin-top: 9rem;
+  margin-top: 10rem;
   display: flex;
   padding: 0.25rem 0;
   flex-direction: column;
