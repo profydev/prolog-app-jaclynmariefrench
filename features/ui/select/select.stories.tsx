@@ -19,7 +19,6 @@ export const Default: Story = {
     ],
     placeholder: "Please choose",
     disabled: false,
-    label: "Label",
   },
   render: (args) => (
     <SelectBox {...args} onChange={(value) => console.log(value)} />
@@ -31,6 +30,42 @@ export const Icon: Story = {
   args: {
     ...Default.args,
     icon: <SelectIcon src="/icons/user.svg" />,
+  },
+  render: (args) => (
+    <SelectBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Label: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    label: "Label",
+  },
+  render: (args) => (
+    <SelectBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Hint: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    label: "Label",
+    hint: "This is hint text to help users.",
+  },
+  render: (args) => (
+    <SelectBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Error: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    label: "Label",
+    hint: "This is hint text to help users.",
+    errorText: "This has an error.",
   },
   render: (args) => (
     <SelectBox {...args} onChange={(value) => console.log(value)} />
