@@ -71,20 +71,37 @@ export const SelectBox = forwardRef<
           ))}
         </div>
       )}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className={styles.arrowIcon}
-        viewBox="0 0 20 20"
-        fill="none"
-      >
-        <path
-          d="M5 7.5L10 12.5L15 7.5"
-          stroke="#667085"
-          stroke-width="1.66667"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      {isOpen ? (
+        <svg //Open arrow
+          className={styles.openIcon}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M15 12.5L10 7.5L5 12.5"
+            stroke="#667085"
+            stroke-width="1.66667"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ) : (
+        <svg //Closed arrow
+          className={styles.arrowIcon}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M5 7.5L10 12.5L15 7.5"
+            stroke="#667085"
+            stroke-width="1.66667"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      )}
     </button>
   );
 });
