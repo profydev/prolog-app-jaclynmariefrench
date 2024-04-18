@@ -5,11 +5,6 @@ import { SelectIcon } from "./select-icon";
 const meta: Meta<typeof SelectBox> = {
   title: "UI/SelectBox",
   component: SelectBox,
-  argTypes: {
-    options: { control: "object" },
-    placeholder: { control: "text" },
-    disabled: { control: "boolean" },
-  },
 };
 
 export default meta;
@@ -24,6 +19,7 @@ export const Default: Story = {
     ],
     placeholder: "Please choose",
     disabled: false,
+    label: "Label",
   },
   render: (args) => (
     <SelectBox {...args} onChange={(value) => console.log(value)} />
