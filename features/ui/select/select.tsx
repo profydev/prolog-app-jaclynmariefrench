@@ -50,18 +50,20 @@ export const SelectBox = forwardRef<
       <div className={styles.selectBoxContainer}>
         <div className={styles.label}>{label}</div>
         <button
+          data-testid="select-box"
           className={`${styles.selectContainer} ${selectedOption ? "" : styles.placeholder} ${errorText ? styles.errorContainer : ""}`}
           onClick={() => setIsOpen(!isOpen)}
           disabled={disabled && !errorText}
         >
-          <div className={styles.selectedBase}>
+          <div className={styles.selectedBase} data-testid="select-base">
             {icon}
             {selectedOption ? selectedOption.label : placeholder}
           </div>
           {isOpen && (
-            <div className={styles.options}>
-              {options.map((option) => (
+            <div className={styles.options} data-testid="select-options">
+              {options.map((option, index) => (
                 <div
+                  data-testid={`select-option-${index}`}
                   key={option.value}
                   className={`${styles.option} ${selectedOption === option ? styles.selected : ""}`}
                   onClick={() => handleOptionClick(option)}
@@ -69,6 +71,7 @@ export const SelectBox = forwardRef<
                   {option.label}
                   {selectedOption === option && (
                     <svg
+                      data-testid="select-check"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="none"
@@ -89,6 +92,7 @@ export const SelectBox = forwardRef<
           )}
           {isOpen ? (
             <svg //Open arrow
+              data-testid="select-open-arrow"
               className={styles.openIcon}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -104,6 +108,7 @@ export const SelectBox = forwardRef<
             </svg>
           ) : (
             <svg //Closed arrow
+              data-testid="select-closed-arrow"
               className={styles.arrowIcon}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -120,9 +125,13 @@ export const SelectBox = forwardRef<
           )}
         </button>
         {errorText ? (
-          <div className={styles.errorText}>{errorText}</div>
+          <div data-testid="select-error" className={styles.errorText}>
+            {errorText}
+          </div>
         ) : (
-          <div className={styles.hint}>{hint}</div>
+          <div data-testid="select-hint" className={styles.hint}>
+            {hint}
+          </div>
         )}
       </div>
     );
