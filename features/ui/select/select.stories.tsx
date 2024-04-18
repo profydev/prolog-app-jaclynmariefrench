@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { SelectBox } from "./select";
+import { SelectIcon } from "./select-icon";
 
 const meta: Meta<typeof SelectBox> = {
   title: "UI/SelectBox",
@@ -23,6 +24,17 @@ export const Default: Story = {
     ],
     placeholder: "Please choose",
     disabled: false,
+  },
+  render: (args) => (
+    <SelectBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Icon: Story = {
+  ...Default,
+  args: {
+    ...Default.args,
+    icon: <SelectIcon src="/icons/user.svg" />,
   },
   render: (args) => (
     <SelectBox {...args} onChange={(value) => console.log(value)} />

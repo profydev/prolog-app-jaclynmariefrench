@@ -41,6 +41,8 @@
 
 .selectedBase {
   background: color.$primary-25;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .options {
@@ -80,7 +82,8 @@
 
 .arrowIcon,
 .checkIcon,
-.openIcon {
+.openIcon,
+.selectIcon {
   width: 1.25rem;
   height: 1.25rem;
 }

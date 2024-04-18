@@ -1,4 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  ReactElement,
+} from "react";
 import styles from "./select.module.scss";
 
 type Option = {
@@ -11,12 +16,13 @@ type SelectBoxProps = {
   onChange: (value: string) => void;
   placeholder: string;
   disabled?: boolean;
+  icon?: ReactElement;
 };
 
 export const SelectBox = forwardRef<
   { setValue: (value: string) => void },
   SelectBoxProps
->(({ options, onChange, placeholder, disabled }, ref) => {
+>(({ options, onChange, placeholder, disabled, icon }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
@@ -40,6 +46,7 @@ export const SelectBox = forwardRef<
       disabled={disabled}
     >
       <div className={styles.selectedBase}>
+        {icon}
         {selectedOption ? selectedOption.label : placeholder}
       </div>
       {isOpen && (
