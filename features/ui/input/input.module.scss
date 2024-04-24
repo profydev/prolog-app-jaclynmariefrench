@@ -1,0 +1,21 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/space";
+@use "@styles/shadow";
+
+.inputBoxContainer {
+  display: flex;
+  padding: 0.625rem 0.875rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid color.$gray-300;
+  background: color.$white;
+  box-shadow: shadow.$xs;
+  width: 18rem;
+  font: font.$text-md-regular;
+
+  input::placeholder {
+    color: color.$gray-500;
+  }
+}
