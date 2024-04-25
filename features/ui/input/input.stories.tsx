@@ -13,6 +13,7 @@ type Story = StoryObj<typeof InputBox>;
 export const Default: Story = {
   args: {
     placeholder: "olivia@untitledui.com",
+    disabled: false,
   },
   render: (args) => (
     <InputBox {...args} onChange={(value) => console.log(value)} />

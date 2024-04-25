@@ -4,12 +4,13 @@ import styles from "./input.module.scss";
 type InputBoxProps = {
   onChange: (value: string) => void;
   placeholder: string;
+  disabled: boolean;
 };
 
 export const InputBox = forwardRef<
   { setValue: (value: string) => void },
   InputBoxProps
->(({ onChange, placeholder }, ref) => {
+>(({ onChange, placeholder, disabled }, ref) => {
   const [value, setValue] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +28,10 @@ export const InputBox = forwardRef<
     <div>
       <input
         placeholder={placeholder}
-        className={styles.inputBoxContainer}
+        className={styles.inputBox}
         onChange={handleInputChange}
         value={value}
+        disabled={disabled}
       ></input>
     </div>
   );
