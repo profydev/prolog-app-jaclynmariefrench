@@ -1,16 +1,23 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, {
+  ReactElement,
+  forwardRef,
+  useImperativeHandle,
+  useState,
+} from "react";
 import styles from "./input.module.scss";
 
 type InputBoxProps = {
   onChange: (value: string) => void;
   placeholder: string;
   disabled: boolean;
+  label: string;
+  icon?: ReactElement;
 };
 
 export const InputBox = forwardRef<
   { setValue: (value: string) => void },
   InputBoxProps
->(({ onChange, placeholder, disabled }, ref) => {
+>(({ onChange, placeholder, disabled, label, icon }, ref) => {
   const [value, setValue] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,14 +32,18 @@ export const InputBox = forwardRef<
     },
   }));
   return (
-    <div>
-      <input
-        placeholder={placeholder}
-        className={styles.inputBox}
-        onChange={handleInputChange}
-        value={value}
-        disabled={disabled}
-      ></input>
+    <div className={styles.inputBoxContainer}>
+      <div className={styles.label}>{label}</div>
+      <div className={styles.inputWrapper}>
+        {icon && <div className={styles.inputIcon}>{icon}</div>}
+        <input
+          placeholder={placeholder}
+          className={`${styles.inputBox} ${icon ? styles.inputBoxWithIcon : ""}`}
+          onChange={handleInputChange}
+          value={value}
+          disabled={disabled}
+        />
+      </div>
     </div>
   );
 });

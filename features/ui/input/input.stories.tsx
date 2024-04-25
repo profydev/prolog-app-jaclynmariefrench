@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { InputBox } from "./input";
+import { InputIcon } from "./input-icon";
 
 const meta: Meta<typeof InputBox> = {
   title: "UI/InputBox",
@@ -14,6 +15,17 @@ export const Default: Story = {
   args: {
     placeholder: "olivia@untitledui.com",
     disabled: false,
+    label: "Email",
+  },
+  render: (args) => (
+    <InputBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Icon: Story = {
+  args: {
+    ...Default.args,
+    icon: <InputIcon src="/icons/mail.svg" />,
   },
   render: (args) => (
     <InputBox {...args} onChange={(value) => console.log(value)} />

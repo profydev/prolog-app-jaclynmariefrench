@@ -5,8 +5,8 @@ type SelectIconProps = {
 };
 
 export function SelectIcon({ src }: SelectIconProps) {
-  // eslint-disable-next-line @next/next/no-img-element
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       className={styles.selectIcon}
       src={src}
