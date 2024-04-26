@@ -12,6 +12,7 @@
 }
 
 .inputWrapper {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -49,6 +50,16 @@
   }
 }
 
+.errorContainer {
+  border: 1px solid color.$error-300;
+  box-shadow: shadow.$xs;
+
+  &:focus {
+    border: 1px solid color.$error-300;
+    box-shadow: shadow.$xs, shadow.$focus-error;
+  }
+}
+
 .inputBoxWithIcon {
   padding-left: 2.5rem;
   width: 16.5rem;
@@ -64,4 +75,23 @@
 .label {
   color: color.$gray-700;
   font: font.$text-sm-medium;
+}
+
+.hint {
+  color: color.$gray-500;
+  font: font.$text-sm-regular;
+}
+
+.error {
+  color: color.$error-500;
+  font: font.$text-sm-regular;
+}
+
+.errorIcon {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
 }

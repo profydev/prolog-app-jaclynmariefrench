@@ -31,3 +31,26 @@ export const Icon: Story = {
     <InputBox {...args} onChange={(value) => console.log(value)} />
   ),
 };
+
+export const Hint: Story = {
+  args: {
+    ...Default.args,
+    icon: <InputIcon src="/icons/mail.svg" />,
+    hint: "This is a hint text to help user.",
+  },
+  render: (args) => (
+    <InputBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    icon: <InputIcon src="/icons/mail.svg" />,
+    hint: "This is a hint text to help user.",
+    error: "This is a error message.",
+  },
+  render: (args) => (
+    <InputBox {...args} onChange={(value) => console.log(value)} />
+  ),
+};
