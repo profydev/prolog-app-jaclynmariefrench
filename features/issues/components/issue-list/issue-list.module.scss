@@ -2,6 +2,15 @@
 @use "@styles/space";
 @use "@styles/font";
 
+.filterListContainer {
+  display: flex;
+  padding: 0 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  align-self: stretch;
+}
+
 .container {
   background: white;
   border: 1px solid color.$gray-200;
