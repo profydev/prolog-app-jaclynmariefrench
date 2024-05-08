@@ -6,7 +6,7 @@ import {
   ButtonIcon,
   SelectBox,
 } from "@features/ui";
-import { IssueLevel } from "@api/issues.types";
+import { IssueLevel, IssueStatus } from "@api/issues.types";
 // import type { Issue } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
@@ -15,6 +15,11 @@ export function IssueFilter() {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
     value: level,
     label: capitalize(level),
+  }));
+
+  const issueStatus = Object.values(IssueStatus).map((status) => ({
+    value: status,
+    label: capitalize(status),
   }));
 
   return (
@@ -31,10 +36,7 @@ export function IssueFilter() {
         Resolve selected issues
       </Button>
       <SelectBox
-        options={[
-          { value: "option1", label: "Option 1" },
-          { value: "option2", label: "Option 2" },
-        ]}
+        options={issueStatus}
         onChange={() => {
           // Add your logic here
         }}
