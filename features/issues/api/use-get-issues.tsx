@@ -2,9 +2,18 @@ import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getIssues } from "@api/issues";
 import type { Page } from "@typings/page.types";
-import type { Issue } from "@api/issues.types";
+import { Issue, IssueStatus } from "@api/issues.types";
 
 const QUERY_KEY = "issues";
+
+function transformIssueStatus(status: string): IssueStatus {
+  switch (status) {
+    case "open":
+      return IssueStatus.unresolved;
+    default:
+      return status as IssueStatus;
+  }
+}
 
 export function getQueryKey(page?: number) {
   if (page === undefined) {
@@ -17,7 +26,16 @@ export function useGetIssues(page: number) {
   const query = useQuery<Page<Issue>, Error>(
     getQueryKey(page),
     ({ signal }) => getIssues(page, { signal }),
-    { keepPreviousData: true },
+    {
+      keepPreviousData: true,
+      select: (data) => {
+        data.items = data.items.map((issue) => ({
+          ...issue,
+          status: transformIssueStatus(issue.status),
+        }));
+        return data;
+      },
+    },
   );
 
   // Prefetch the next page!

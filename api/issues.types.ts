@@ -5,7 +5,7 @@ export enum IssueLevel {
 }
 
 export enum IssueStatus {
-  open = "open",
+  unresolved = "unresolved",
   resolved = "resolved",
 }
 
