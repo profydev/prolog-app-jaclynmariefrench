@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getIssues } from "@api/issues";
 import type { Page } from "@typings/page.types";
 import { Issue, IssueStatus } from "@api/issues.types";
+import { useRouter } from "next/router";
 
 const QUERY_KEY = "issues";
 
@@ -23,9 +24,23 @@ export function getQueryKey(page?: number) {
 }
 
 export function useGetIssues(page: number) {
+  const router = useRouter();
+  let { status } = router.query;
+
+  //checking status select box
+  if (typeof status === "string") {
+    status = ["unresolved", "resolved"].includes(status) ? status : undefined;
+  } else {
+    status = undefined;
+  }
+
   const query = useQuery<Page<Issue>, Error>(
-    getQueryKey(page),
-    ({ signal }) => getIssues(page, { signal }),
+    [getQueryKey(page), status],
+    ({ signal }) =>
+      getIssues(page, { signal, status } as {
+        signal: AbortSignal;
+        status?: "unresolved" | "resolved";
+      }),
     {
       keepPreviousData: true,
       select: (data) => {

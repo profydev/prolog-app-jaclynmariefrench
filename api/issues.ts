@@ -4,12 +4,19 @@ import type { Page } from "@typings/page.types";
 
 const ENDPOINT = "/issue";
 
-export async function getIssues(
-  page: number,
-  options?: { signal?: AbortSignal },
-) {
+type Options = {
+  signal?: AbortSignal;
+  status?: "unresolved" | "resolved" | "open" | undefined;
+};
+
+export async function getIssues(page: number, options?: Options) {
+  let { status } = options || {};
+  if (status === "unresolved") {
+    status = "open";
+  }
+
   const { data } = await axios.get<Page<Issue>>(ENDPOINT, {
-    params: { page },
+    params: { page, status },
     signal: options?.signal,
   });
   return data;

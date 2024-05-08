@@ -5,11 +5,13 @@ import {
   ButtonVariant,
   ButtonIcon,
   SelectBox,
+  InputBox,
+  InputIcon,
 } from "@features/ui";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
-// import type { Issue } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
+import { useRouter } from "next/router";
 
 export function IssueFilter() {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
@@ -21,6 +23,8 @@ export function IssueFilter() {
     value: status,
     label: capitalize(status),
   }));
+
+  const router = useRouter();
 
   return (
     <div className={styles.filterContainer}>
@@ -37,10 +41,13 @@ export function IssueFilter() {
       </Button>
       <SelectBox
         options={issueStatus}
-        onChange={() => {
-          // Add your logic here
+        onChange={(option) => {
+          router.push({
+            pathname: router.pathname,
+            query: { ...router.query, status: option },
+          });
         }}
-        placeholder="Status" // Add the placeholder property
+        placeholder="Status"
       />
       <SelectBox
         options={issueLevels}
@@ -48,6 +55,17 @@ export function IssueFilter() {
           // Add your logic here
         }}
         placeholder="Level" // Add the placeholder property
+      />
+      <InputBox
+        onChange={() => {
+          // Add your logic here
+        }}
+        placeholder="Project Name"
+        disabled={false}
+        label=""
+        hint=""
+        error=""
+        icon=<InputIcon src="/icons/search.svg" />
       />
     </div>
   );
