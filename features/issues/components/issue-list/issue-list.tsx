@@ -9,13 +9,16 @@ import { IssueFilter } from "../issue-filter";
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
+  const status = router.query.status as string;
+  const level = router.query.level as string;
+
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
       query: { page: newPage },
     });
 
-  const issuesPage = useGetIssues(page);
+  const issuesPage = useGetIssues(page, status, level);
   const projects = useGetProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {

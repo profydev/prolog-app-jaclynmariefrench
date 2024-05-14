@@ -6,12 +6,14 @@ import {
   ButtonIcon,
   SelectBox,
   InputBox,
-  InputIcon,
+  InputIcon, // Import useGetIssues from the root @features folder
 } from "@features/ui";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
+import { useGetIssues } from "@features/issues";
+import { useRef, useEffect } from "react";
 
 export function IssueFilter() {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
@@ -25,6 +27,31 @@ export function IssueFilter() {
   }));
 
   const router = useRouter();
+  const { status, level } = router.query;
+
+  useGetIssues(1, status as string, level as string);
+
+  const statusRef = useRef<{ setValue: (value: string) => void } | null>(null);
+  const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
+
+  useEffect(() => {
+    statusRef.current?.setValue(status as string);
+    levelRef.current?.setValue(level as string);
+  }, [status, level]);
+
+  const handleStatusChange = (selectedStatus: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, status: selectedStatus },
+    });
+  };
+
+  const handleLevelChange = (selectedLevel: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, level: selectedLevel },
+    });
+  };
 
   return (
     <div className={styles.filterContainer}>
@@ -40,21 +67,17 @@ export function IssueFilter() {
         Resolve selected issues
       </Button>
       <SelectBox
+        ref={statusRef}
         options={issueStatus}
-        onChange={(option) => {
-          router.push({
-            pathname: router.pathname,
-            query: { ...router.query, status: option },
-          });
-        }}
+        onChange={handleStatusChange}
         placeholder="Status"
       />
+
       <SelectBox
+        ref={levelRef}
         options={issueLevels}
-        onChange={() => {
-          // Add your logic here
-        }}
-        placeholder="Level" // Add the placeholder property
+        onChange={handleLevelChange}
+        placeholder="Level"
       />
       <InputBox
         onChange={() => {
