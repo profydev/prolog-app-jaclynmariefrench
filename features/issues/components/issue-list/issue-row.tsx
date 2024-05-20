@@ -38,7 +38,10 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </div>
       </td>
       <td className={styles.cell}>
-        <Badge color={levelColors[level]} size={BadgeSize.sm}>
+        <Badge
+          color={levelColors[level as keyof typeof levelColors]}
+          size={BadgeSize.sm}
+        >
           {capitalize(level)}
         </Badge>
       </td>

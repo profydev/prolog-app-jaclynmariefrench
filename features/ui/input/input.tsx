@@ -14,6 +14,7 @@ type InputBoxProps = {
   icon?: ReactElement;
   hint: string;
   error: string;
+  value: string;
 };
 
 export const InputBox = forwardRef<

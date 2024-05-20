@@ -10,8 +10,11 @@ describe("<InputBox />", () => {
   const hint = "Hint text";
 
   it("Input box placeholder and typing is working", () => {
+    const value = "value";
+
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -32,8 +35,10 @@ describe("<InputBox />", () => {
   });
 
   it("Input focus is working", () => {
+    const value = "value";
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -62,8 +67,10 @@ describe("<InputBox />", () => {
   });
 
   it("Input icon and error icon is working", () => {
+    const value = "value";
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -78,6 +85,7 @@ describe("<InputBox />", () => {
 
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -95,9 +103,11 @@ describe("<InputBox />", () => {
   });
 
   it("Hint and error messages are working", () => {
+    const value = "value";
     //With an error
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -114,6 +124,7 @@ describe("<InputBox />", () => {
     //Without an error
     cy.mount(
       <InputBox
+        value={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}

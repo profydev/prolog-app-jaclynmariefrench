@@ -5,20 +5,22 @@ import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
 import { IssueFilter } from "../issue-filter";
+import { IssueLevel, IssueStatus } from "@api/issues.types";
 
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
-  const status = router.query.status as string;
-  const level = router.query.level as string;
+  const status = router.query.status as keyof typeof IssueStatus as IssueStatus;
+  const level = router.query.level as keyof typeof IssueLevel as IssueLevel;
+  const project = router.query.project as string;
 
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { page: newPage, project, status, level },
     });
 
-  const issuesPage = useGetIssues(page, status, level);
+  const issuesPage = useGetIssues(page, status, level, project);
   const projects = useGetProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {
@@ -64,7 +66,7 @@ export function IssueList() {
               <IssueRow
                 key={issue.id}
                 issue={issue}
-                projectLanguage={projectIdToLanguage[issue.projectId]}
+                projectLanguage={projectIdToLanguage[issue.projectId] || ""}
               />
             ))}
           </tbody>

@@ -6,14 +6,14 @@ import {
   ButtonIcon,
   SelectBox,
   InputBox,
-  InputIcon, // Import useGetIssues from the root @features folder
+  InputIcon,
 } from "@features/ui";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export function IssueFilter() {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
@@ -26,10 +26,20 @@ export function IssueFilter() {
     label: capitalize(status),
   }));
 
-  const router = useRouter();
-  const { status, level } = router.query;
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  useGetIssues(1, status as string, level as string);
+  const router = useRouter();
+
+  const rawStatus = router.query.status;
+  const rawLevel = router.query.level;
+
+  const status =
+    typeof rawStatus === "string" ? (rawStatus as IssueStatus) : undefined;
+  const level =
+    typeof rawLevel === "string" ? (rawLevel as IssueLevel) : undefined;
+
+  useGetIssues(1, status, level, debouncedSearch);
 
   const statusRef = useRef<{ setValue: (value: string) => void } | null>(null);
   const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
@@ -51,6 +61,28 @@ export function IssueFilter() {
       pathname: router.pathname,
       query: { ...router.query, level: selectedLevel },
     });
+  };
+
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
+    null,
+  );
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    setSearchTimeout(
+      setTimeout(() => {
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, project: value },
+        });
+        setDebouncedSearch(value);
+      }, 500),
+    );
   };
 
   return (
@@ -80,9 +112,8 @@ export function IssueFilter() {
         placeholder="Level"
       />
       <InputBox
-        onChange={() => {
-          // Add your logic here
-        }}
+        onChange={handleSearchChange}
+        value={search}
         placeholder="Project Name"
         disabled={false}
         label=""
