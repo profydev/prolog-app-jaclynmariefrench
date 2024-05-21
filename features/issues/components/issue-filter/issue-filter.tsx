@@ -118,9 +118,7 @@ export function IssueFilter() {
         value={search}
         placeholder="Project Name"
         disabled={false}
-        label=""
-        hint=""
-        error=""
+        classNames={{ input: styles.inputFilter }}
         icon=<InputIcon src="/icons/search.svg" />
       />
     </div>
