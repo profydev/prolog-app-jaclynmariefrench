@@ -6,6 +6,7 @@ import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
 import { IssueFilter } from "../issue-filter";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
+import { Checkbox, CheckboxSize } from "@features/ui";
 
 export function IssueList() {
   const router = useRouter();
@@ -55,7 +56,10 @@ export function IssueList() {
         <table className={styles.table}>
           <thead>
             <tr className={styles.headerRow}>
-              <th className={styles.headerCell}>Issue</th>
+              <th className={`${styles.headerCell} ${styles.checkboxCell}`}>
+                <Checkbox size={CheckboxSize.Small} />
+                Issue
+              </th>
               <th className={styles.headerCell}>Level</th>
               <th className={styles.headerCell}>Events</th>
               <th className={styles.headerCell}>Users</th>

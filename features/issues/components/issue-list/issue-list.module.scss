@@ -42,6 +42,10 @@
   font: font.$text-xs-medium;
 }
 
+.checkboxCell {
+  display: flex;
+}
+
 .paginationContainer {
   display: flex;
   align-items: center;

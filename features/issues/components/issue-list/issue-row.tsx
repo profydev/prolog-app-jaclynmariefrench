@@ -1,5 +1,11 @@
 import capitalize from "lodash/capitalize";
-import { Badge, BadgeColor, BadgeSize } from "@features/ui";
+import {
+  Badge,
+  BadgeColor,
+  BadgeSize,
+  Checkbox,
+  CheckboxSize,
+} from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
 import { IssueLevel } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
@@ -23,6 +29,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
+        <Checkbox size={CheckboxSize.Small} />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.languageIcon}
