@@ -20,6 +20,12 @@ type SelectBoxProps = {
   label?: string;
   hint?: string;
   errorText?: string;
+  classNames?: {
+    container?: string;
+    label?: string;
+    button?: string;
+    hint?: string;
+  };
 };
 
 export const SelectBox = forwardRef<
@@ -27,7 +33,17 @@ export const SelectBox = forwardRef<
   SelectBoxProps
 >(
   (
-    { options, onChange, placeholder, disabled, icon, label, hint, errorText },
+    {
+      options,
+      onChange,
+      placeholder,
+      disabled,
+      icon,
+      label,
+      hint,
+      errorText,
+      classNames = {},
+    },
     ref,
   ) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,11 +63,15 @@ export const SelectBox = forwardRef<
     }));
 
     return (
-      <div className={styles.selectBoxContainer}>
-        <div className={styles.label}>{label}</div>
+      <div
+        className={`${styles.selectBoxContainer} ${classNames.container || ""}`}
+      >
+        <div className={`${styles.label} ${classNames.label || ""}`}>
+          {label}
+        </div>
         <button
           data-testid="select-box"
-          className={`${styles.selectContainer} ${selectedOption ? "" : styles.placeholder} ${errorText ? styles.errorContainer : ""}`}
+          className={`${styles.selectContainer} ${selectedOption ? "" : styles.placeholder} ${errorText ? styles.errorContainer : ""} ${classNames.button || ""}`}
           onClick={() => setIsOpen(!isOpen)}
           disabled={disabled && !errorText}
         >
@@ -129,7 +149,10 @@ export const SelectBox = forwardRef<
             {errorText}
           </div>
         ) : (
-          <div data-testid="select-hint" className={styles.hint}>
+          <div
+            data-testid="select-hint"
+            className={`${styles.hint} ${classNames.hint || ""}`}
+          >
             {hint}
           </div>
         )}

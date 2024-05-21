@@ -99,6 +99,7 @@ export function IssueFilter() {
         Resolve selected issues
       </Button>
       <SelectBox
+        classNames={{ button: styles.selectFilter }}
         ref={statusRef}
         options={issueStatus}
         onChange={handleStatusChange}
@@ -106,6 +107,7 @@ export function IssueFilter() {
       />
 
       <SelectBox
+        classNames={{ button: styles.selectFilter }}
         ref={levelRef}
         options={issueLevels}
         onChange={handleLevelChange}

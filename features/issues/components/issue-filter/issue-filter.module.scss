@@ -1,7 +1,13 @@
 .filterContainer {
   display: flex;
-  height: 1px;
+  height: auto;
   align-items: flex-start;
+  justify-content: center;
   gap: 16px;
   flex: 1 0 0;
+}
+
+.selectFilter {
+  width: 10rem;
+  gap: 3.5rem;
 }

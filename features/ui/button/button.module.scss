@@ -11,6 +11,7 @@
   border-radius: space.$s2;
   box-shadow: shadow.$xs;
   font: font.$text-md-medium;
+  min-width: 0;
 }
 
 .icon {
@@ -41,10 +42,11 @@
 }
 
 .large {
-  height: 2.75rem;
+  min-height: 2.75rem;
   padding: 0.625rem 1.125rem;
   font: font.$text-md-medium;
   letter-spacing: 0.0313rem;
+  flex-shrink: 1;
 
   &.iconOnly {
     padding: 0.625rem;
