@@ -47,7 +47,7 @@ export function IssueList() {
   const { items, meta } = issuesPage.data || {};
 
   return (
-    <div>
+    <div className={styles.issueListContainer}>
       <div className={styles.filterListContainer}>
         <IssueFilter />
       </div>

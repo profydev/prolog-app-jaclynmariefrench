@@ -2,12 +2,16 @@
 @use "@styles/space";
 @use "@styles/font";
 
+.issueListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .filterListContainer {
   display: flex;
-  padding: 0 32px;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
+  gap: 1.5rem;
   align-self: stretch;
 }
 

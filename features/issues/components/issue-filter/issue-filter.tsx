@@ -98,29 +98,31 @@ export function IssueFilter() {
         <ButtonIcon src="/icons/check.svg" />
         Resolve selected issues
       </Button>
-      <SelectBox
-        classNames={{ button: styles.selectFilter }}
-        ref={statusRef}
-        options={issueStatus}
-        onChange={handleStatusChange}
-        placeholder="Status"
-      />
+      <div className={styles.rightGroup}>
+        <SelectBox
+          classNames={{ button: styles.selectFilter }}
+          ref={statusRef}
+          options={issueStatus}
+          onChange={handleStatusChange}
+          placeholder="Status"
+        />
 
-      <SelectBox
-        classNames={{ button: styles.selectFilter }}
-        ref={levelRef}
-        options={issueLevels}
-        onChange={handleLevelChange}
-        placeholder="Level"
-      />
-      <InputBox
-        onChange={handleSearchChange}
-        value={search}
-        placeholder="Project Name"
-        disabled={false}
-        classNames={{ input: styles.inputFilter }}
-        icon=<InputIcon src="/icons/search.svg" />
-      />
+        <SelectBox
+          classNames={{ button: styles.selectFilter }}
+          ref={levelRef}
+          options={issueLevels}
+          onChange={handleLevelChange}
+          placeholder="Level"
+        />
+        <InputBox
+          onChange={handleSearchChange}
+          value={search}
+          placeholder="Project Name"
+          disabled={false}
+          classNames={{ input: styles.inputFilter }}
+          icon=<InputIcon src="/icons/search.svg" />
+        />
+      </div>
     </div>
   );
 }
