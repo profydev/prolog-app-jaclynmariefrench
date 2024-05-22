@@ -14,6 +14,8 @@ import styles from "./issue-row.module.scss";
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
+  isChecked: boolean;
+  onCheckboxChange: () => void;
 };
 
 const levelColors = {
@@ -22,14 +24,23 @@ const levelColors = {
   [IssueLevel.error]: BadgeColor.error,
 };
 
-export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
+export function IssueRow({
+  projectLanguage,
+  issue,
+  isChecked,
+  onCheckboxChange,
+}: IssueRowProps) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
-        <Checkbox size={CheckboxSize.Small} />
+        <Checkbox
+          size={CheckboxSize.Small}
+          checked={isChecked}
+          onChange={onCheckboxChange}
+        />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.languageIcon}

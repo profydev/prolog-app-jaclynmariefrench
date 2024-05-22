@@ -7,6 +7,7 @@ import styles from "./issue-list.module.scss";
 import { IssueFilter } from "../issue-filter";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
 import { Checkbox, CheckboxSize } from "@features/ui";
+import { useState } from "react";
 
 export function IssueList() {
   const router = useRouter();
@@ -14,6 +15,51 @@ export function IssueList() {
   const status = router.query.status as keyof typeof IssueStatus as IssueStatus;
   const level = router.query.level as keyof typeof IssueLevel as IssueLevel;
   const project = router.query.project as string;
+
+  //checkboxes state in list
+  const [checkedIssues, setCheckedIssues] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const handleCheckboxChange = (id: number) => {
+    setCheckedIssues((prevState) => {
+      const newState = { ...prevState, [id]: !prevState[id] };
+      const allChecked = Object.values(newState).every((val) => val);
+      const someChecked = Object.values(newState).some((val) => val);
+
+      // Update the allChecked and someChecked state
+      setAllChecked(allChecked);
+      setSomeChecked(someChecked);
+
+      return newState;
+    });
+  };
+
+  //checkboxes state for select all aka checkbox in header
+  const [allChecked, setAllChecked] = useState(false);
+  const [someChecked, setSomeChecked] = useState(false);
+
+  const handleAllCheckboxChange = () => {
+    if (allChecked || someChecked) {
+      // If all checkboxes or some checkboxes are checked, uncheck all
+      setCheckedIssues(() => {
+        setAllChecked(false);
+        setSomeChecked(false);
+        return {};
+      });
+    } else {
+      //If no checkboxes are checked, check all
+      const newCheckedIssues = (items || []).reduce(
+        (acc, issue) => {
+          acc[issue.id as unknown as number] = true;
+          return acc;
+        },
+        {} as { [key: number]: boolean },
+      );
+      setCheckedIssues(newCheckedIssues);
+      setAllChecked(true);
+      setSomeChecked(false); // We know that all are checked, so set this to false
+    }
+  };
 
   const navigateToPage = (newPage: number) =>
     router.push({
@@ -57,7 +103,12 @@ export function IssueList() {
           <thead>
             <tr className={styles.headerRow}>
               <th className={`${styles.headerCell} ${styles.checkboxCell}`}>
-                <Checkbox size={CheckboxSize.Small} />
+                <Checkbox
+                  size={CheckboxSize.Small}
+                  checked={allChecked}
+                  indeterminate={!allChecked && someChecked}
+                  onChange={handleAllCheckboxChange}
+                />
                 Issue
               </th>
               <th className={styles.headerCell}>Level</th>
@@ -71,6 +122,12 @@ export function IssueList() {
                 key={issue.id}
                 issue={issue}
                 projectLanguage={projectIdToLanguage[issue.projectId] || ""}
+                isChecked={
+                  checkedIssues[issue.id as unknown as number] || false
+                }
+                onCheckboxChange={() =>
+                  handleCheckboxChange(issue.id as unknown as number)
+                }
               />
             ))}
           </tbody>
