@@ -4,7 +4,7 @@ import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
-import { IssueFilter } from "../issue-filter";
+import { IssueFilter, IssueNoResults } from "../issue-filter";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
 import { Checkbox, CheckboxSize } from "@features/ui";
 import { useState } from "react";
@@ -23,8 +23,13 @@ export function IssueList() {
   const handleCheckboxChange = (id: number) => {
     setCheckedIssues((prevState) => {
       const newState = { ...prevState, [id]: !prevState[id] };
-      const allChecked = Object.values(newState).every((val) => val);
-      const someChecked = Object.values(newState).some((val) => val);
+      const allChecked = Object.values(newState).every((val) => val === true);
+      const someChecked = Object.values(newState).some((val) => val === true);
+
+      // Log the new state
+      console.log("New state:", newState);
+      console.log("All checked:", allChecked);
+      console.log("Some checked:", someChecked);
 
       // Update the allChecked and someChecked state
       setAllChecked(allChecked);
@@ -82,6 +87,10 @@ export function IssueList() {
   if (issuesPage.isError) {
     console.error(issuesPage.error);
     return <div>Error loading issues: {issuesPage.error.message}</div>;
+  }
+
+  if (issuesPage.data && issuesPage.data.items.length === 0) {
+    return <IssueNoResults />;
   }
 
   const projectIdToLanguage = (projects.data || []).reduce(
