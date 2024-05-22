@@ -1,8 +1,49 @@
+@use "@styles/color";
+@use "@styles/space";
+@use "@styles/font";
+
 .noResultContainer {
   display: flex;
   padding: 0 2rem;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 1.5rem;
+  justify-content: center;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 22rem;
+  justify-content: center;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
   align-self: stretch;
+}
+
+.header {
+  color: color.$gray-900;
+  text-align: center;
+  font: font.$text-md-medium;
+  height: 0;
+}
+
+.paragraph {
+  color: color.$gray-500;
+  text-align: center;
+  font: font.$text-sm-regular;
+}
+
+.button {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8125rem;
+  align-self: stretch;
+  width: 22rem;
 }
