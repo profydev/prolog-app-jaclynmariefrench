@@ -1,10 +1,15 @@
 import { Button, ButtonSize } from "@features/ui";
 import styles from "./issue-no-results.module.scss";
+import { IssueFilter } from "./issue-filter";
 
 export function IssueNoResults() {
   return (
     <div className={styles.noResultContainer}>
-      <div>Filter here</div>
+      <div className={styles.filterContainer}>
+        <div>
+          <IssueFilter showButton={false} />
+        </div>
+      </div>
       <div className={styles.contentContainer}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icons/illustration.svg" alt="cloud and search glass" />

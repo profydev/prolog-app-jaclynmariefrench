@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
 import { useRef, useEffect, useState } from "react";
 
-export function IssueFilter() {
+export function IssueFilter({ showButton = true }) {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
     value: level,
     label: capitalize(level),
@@ -87,17 +87,19 @@ export function IssueFilter() {
 
   return (
     <div className={styles.filterContainer}>
-      <Button
-        size={ButtonSize.Large}
-        color={ButtonColor.Primary}
-        variant={ButtonVariant.Default}
-        onClick={() => {
-          console.log("button click");
-        }}
-      >
-        <ButtonIcon src="/icons/check.svg" />
-        Resolve selected issues
-      </Button>
+      {showButton && (
+        <Button
+          size={ButtonSize.Large}
+          color={ButtonColor.Primary}
+          variant={ButtonVariant.Default}
+          onClick={() => {
+            console.log("button click");
+          }}
+        >
+          <ButtonIcon src="/icons/check.svg" />
+          Resolve selected issues
+        </Button>
+      )}
       <div className={styles.rightGroup}>
         <SelectBox
           classNames={{ button: styles.selectFilter }}
