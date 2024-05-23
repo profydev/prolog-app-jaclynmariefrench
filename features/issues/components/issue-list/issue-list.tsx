@@ -112,12 +112,14 @@ export function IssueList() {
           <thead>
             <tr className={styles.headerRow}>
               <th className={`${styles.headerCell} ${styles.checkboxCell}`}>
-                <Checkbox
-                  size={CheckboxSize.Small}
-                  checked={allChecked}
-                  indeterminate={!allChecked && someChecked}
-                  onChange={handleAllCheckboxChange}
-                />
+                {status === IssueStatus.unresolved && (
+                  <Checkbox
+                    size={CheckboxSize.Small}
+                    checked={allChecked}
+                    indeterminate={!allChecked && someChecked}
+                    onChange={handleAllCheckboxChange}
+                  />
+                )}
                 Issue
               </th>
               <th className={styles.headerCell}>Level</th>

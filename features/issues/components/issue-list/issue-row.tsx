@@ -7,7 +7,7 @@ import {
   CheckboxSize,
 } from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
-import { IssueLevel } from "@api/issues.types";
+import { IssueLevel, IssueStatus } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
 import styles from "./issue-row.module.scss";
 
@@ -30,17 +30,21 @@ export function IssueRow({
   isChecked,
   onCheckboxChange,
 }: IssueRowProps) {
-  const { name, message, stack, level, numEvents, numUsers } = issue;
+  const { name, message, stack, level, numEvents, numUsers, status } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
+
+  console.log("Issue status:", status);
 
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
-        <Checkbox
-          size={CheckboxSize.Small}
-          checked={isChecked}
-          onChange={onCheckboxChange}
-        />
+        {status === IssueStatus.unresolved && (
+          <Checkbox
+            size={CheckboxSize.Small}
+            checked={isChecked}
+            onChange={onCheckboxChange}
+          />
+        )}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.languageIcon}

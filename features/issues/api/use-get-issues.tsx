@@ -36,6 +36,8 @@ function fromApiIssueStatus(
       return IssueStatus.unresolved;
     case "resolved":
       return IssueStatus.resolved;
+    case IssueStatus.unresolved:
+      return status;
     default:
       return undefined;
   }
