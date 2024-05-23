@@ -1,8 +1,18 @@
 import { Button, ButtonSize } from "@features/ui";
 import styles from "./issue-no-results.module.scss";
 import { IssueFilter } from "./issue-filter";
+import { useRouter } from "next/router";
 
 export function IssueNoResults() {
+  const router = useRouter();
+
+  const clearFilters = () => {
+    router.push({
+      pathname: router.pathname,
+      query: { results: "none" },
+    });
+  };
+
   return (
     <div className={styles.noResultContainer}>
       <div className={styles.filterContainer}>
@@ -21,7 +31,11 @@ export function IssueNoResults() {
           </p>
         </div>
         <div>
-          <Button size={ButtonSize.Large} className={styles.button}>
+          <Button
+            size={ButtonSize.Large}
+            className={styles.button}
+            onClick={clearFilters}
+          >
             Clear Filters
           </Button>
         </div>
