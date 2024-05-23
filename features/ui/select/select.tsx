@@ -26,6 +26,7 @@ type SelectBoxProps = {
     button?: string;
     hint?: string;
   };
+  allowReselectPlaceholder?: boolean;
 };
 
 export const SelectBox = forwardRef<
@@ -43,6 +44,7 @@ export const SelectBox = forwardRef<
       hint,
       errorText,
       classNames = {},
+      allowReselectPlaceholder = false,
     },
     ref,
   ) => {
@@ -61,6 +63,10 @@ export const SelectBox = forwardRef<
         setSelectedOption(option || null);
       },
     }));
+
+    const allOptions = allowReselectPlaceholder
+      ? [{ value: "", label: placeholder }, ...options]
+      : options;
 
     return (
       <div
@@ -81,11 +87,11 @@ export const SelectBox = forwardRef<
           </div>
           {isOpen && (
             <div className={styles.options} data-testid="select-options">
-              {options.map((option, index) => (
+              {allOptions.map((option, index) => (
                 <div
                   data-testid={`select-option-${index}`}
                   key={option.value}
-                  className={`${styles.option} ${selectedOption === option ? styles.selected : ""}`}
+                  className={`${styles.option} ${selectedOption === option ? styles.selected : ""} ${option.value === "" ? styles.placeholderOption : ""}`}
                   onClick={() => handleOptionClick(option)}
                 >
                   {option.label}

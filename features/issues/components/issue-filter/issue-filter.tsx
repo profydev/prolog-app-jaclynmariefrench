@@ -107,6 +107,7 @@ export function IssueFilter({ showButton = true }) {
           options={issueStatus}
           onChange={handleStatusChange}
           placeholder="Status"
+          allowReselectPlaceholder={true}
         />
 
         <SelectBox
@@ -115,6 +116,7 @@ export function IssueFilter({ showButton = true }) {
           options={issueLevels}
           onChange={handleLevelChange}
           placeholder="Level"
+          allowReselectPlaceholder={true}
         />
         <InputBox
           onChange={handleSearchChange}

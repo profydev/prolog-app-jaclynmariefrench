@@ -33,8 +33,6 @@ export function IssueRow({
   const { name, message, stack, level, numEvents, numUsers, status } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
 
-  console.log("Issue status:", status);
-
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
