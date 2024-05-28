@@ -52,7 +52,6 @@ export function IssueFilter({ showButton = true }) {
     levelRef.current?.setValue(level as string);
   }, [status, level]);
 
-  console.log(router.isReady, router.query.project);
   useEffect(() => {
     if (router.isReady && router.query.project) {
       const projectNameFromUrl = Array.isArray(router.query.project)
@@ -91,16 +90,23 @@ export function IssueFilter({ showButton = true }) {
 
     setSearchTimeout(
       setTimeout(() => {
-        if (value !== "") {
-          router.push({
-            pathname: router.pathname,
-            query: { ...router.query, project: value },
-          });
-        }
+        // Update the URL even when the input is empty
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, project: value },
+        });
         setDebouncedSearch(value);
       }, 500),
     );
   };
+
+  useEffect(() => {
+    return () => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+    };
+  }, [searchTimeout]);
 
   useGetIssues(1, status, level, debouncedSearch);
 
