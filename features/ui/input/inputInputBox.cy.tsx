@@ -14,7 +14,7 @@ describe("<InputBox />", () => {
 
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -38,7 +38,7 @@ describe("<InputBox />", () => {
     const value = "value";
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -70,7 +70,7 @@ describe("<InputBox />", () => {
     const value = "value";
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -85,7 +85,7 @@ describe("<InputBox />", () => {
 
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -107,7 +107,7 @@ describe("<InputBox />", () => {
     //With an error
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}
@@ -124,7 +124,7 @@ describe("<InputBox />", () => {
     //Without an error
     cy.mount(
       <InputBox
-        value={value}
+        initialValue={value}
         onChange={() => {}}
         placeholder={placeholderText}
         label={label}

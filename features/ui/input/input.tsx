@@ -3,6 +3,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useState,
+  useEffect,
 } from "react";
 import styles from "./input.module.scss";
 
@@ -14,7 +15,7 @@ type InputBoxProps = {
   icon?: ReactElement;
   hint?: string;
   error?: string;
-  value?: string;
+  initialValue?: string;
   classNames?: {
     container?: string;
     label?: string;
@@ -38,11 +39,16 @@ export const InputBox = forwardRef<
       icon,
       hint,
       error,
+      initialValue,
       classNames = {},
     },
     ref,
   ) => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(initialValue);
+
+    useEffect(() => {
+      setValue(initialValue);
+    }, [initialValue]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);

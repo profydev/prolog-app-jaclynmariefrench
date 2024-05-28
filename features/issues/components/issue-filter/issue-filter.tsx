@@ -25,11 +25,16 @@ export function IssueFilter({ showButton = true }) {
     value: status,
     label: capitalize(status),
   }));
-
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-
   const router = useRouter();
+
+  const projectNameFromUrl = Array.isArray(router.query.project)
+    ? router.query.project[0]
+    : router.query.project;
+
+  const [search, setSearch] = useState(projectNameFromUrl || "");
+  const [debouncedSearch, setDebouncedSearch] = useState(
+    projectNameFromUrl || "",
+  );
 
   const rawStatus = router.query.status;
   const rawLevel = router.query.level;
@@ -39,8 +44,6 @@ export function IssueFilter({ showButton = true }) {
   const level =
     typeof rawLevel === "string" ? (rawLevel as IssueLevel) : undefined;
 
-  useGetIssues(1, status, level, debouncedSearch);
-
   const statusRef = useRef<{ setValue: (value: string) => void } | null>(null);
   const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
 
@@ -48,6 +51,18 @@ export function IssueFilter({ showButton = true }) {
     statusRef.current?.setValue(status as string);
     levelRef.current?.setValue(level as string);
   }, [status, level]);
+
+  console.log(router.isReady, router.query.project);
+  useEffect(() => {
+    if (router.isReady && router.query.project) {
+      const projectNameFromUrl = Array.isArray(router.query.project)
+        ? router.query.project[0]
+        : router.query.project;
+
+      setSearch(projectNameFromUrl || "");
+      setDebouncedSearch(projectNameFromUrl || "");
+    }
+  }, [router.isReady, router.query.project]);
 
   const handleStatusChange = (selectedStatus: string) => {
     router.push({
@@ -76,14 +91,18 @@ export function IssueFilter({ showButton = true }) {
 
     setSearchTimeout(
       setTimeout(() => {
-        router.push({
-          pathname: router.pathname,
-          query: { ...router.query, project: value },
-        });
+        if (value !== "") {
+          router.push({
+            pathname: router.pathname,
+            query: { ...router.query, project: value },
+          });
+        }
         setDebouncedSearch(value);
       }, 500),
     );
   };
+
+  useGetIssues(1, status, level, debouncedSearch);
 
   return (
     <div className={styles.filterContainer}>
@@ -120,7 +139,7 @@ export function IssueFilter({ showButton = true }) {
         />
         <InputBox
           onChange={handleSearchChange}
-          value={search}
+          initialValue={search}
           placeholder="Project Name"
           disabled={false}
           classNames={{ input: styles.inputFilter }}
