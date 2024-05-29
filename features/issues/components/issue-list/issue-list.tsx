@@ -26,11 +26,6 @@ export function IssueList() {
       const allChecked = Object.values(newState).every((val) => val === true);
       const someChecked = Object.values(newState).some((val) => val === true);
 
-      // Log the new state
-      console.log("New state:", newState);
-      console.log("All checked:", allChecked);
-      console.log("Some checked:", someChecked);
-
       // Update the allChecked and someChecked state
       setAllChecked(allChecked);
       setSomeChecked(someChecked);
@@ -139,6 +134,7 @@ export function IssueList() {
                 onCheckboxChange={() =>
                   handleCheckboxChange(issue.id as unknown as number)
                 }
+                status={status}
               />
             ))}
           </tbody>

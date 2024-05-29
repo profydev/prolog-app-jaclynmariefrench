@@ -29,8 +29,9 @@ export function IssueRow({
   issue,
   isChecked,
   onCheckboxChange,
-}: IssueRowProps) {
-  const { name, message, stack, level, numEvents, numUsers, status } = issue;
+  status,
+}: IssueRowProps & { status: IssueStatus }) {
+  const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
