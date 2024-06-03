@@ -3,6 +3,7 @@ import mockIssues2 from "../fixtures/issues-page-2.json";
 import mockIssues3 from "../fixtures/issues-page-3.json";
 import filteredWarning from "../fixtures/issues-page-filter-warning.json";
 import filteredUnresolved from "../fixtures/issues-page-filter-unresolved.json";
+import filteredSearch from "../fixtures/issues-page-filter-project-search.json";
 
 describe("Issue List", () => {
   beforeEach(() => {
@@ -19,8 +20,11 @@ describe("Issue List", () => {
         const page = url.searchParams.get("page");
         const level = url.searchParams.get("level");
         const status = url.searchParams.get("status");
+        const project = url.searchParams.get("project");
 
-        if (level === "warning" && status === "open") {
+        if (level === "warning" && status === "open" && project === "fro") {
+          req.reply({ fixture: "issues-page-filter-project-search.json" });
+        } else if (level === "warning" && status === "open") {
           req.reply({ fixture: "issues-page-filter-unresolved.json" });
         } else if (level === "warning") {
           req.reply({ fixture: "issues-page-filter-warning.json" });
@@ -146,10 +150,7 @@ describe("Issue List", () => {
           }
         });
       // simulate filtering to project id
-      cy.get('[data-testid="status-select"]').click();
-      cy.get(
-        '[data-testid="status-select"] [data-testid="select-option-1"]',
-      ).click();
+      cy.get('[data-testid="search-input"]').type("fro");
       cy.wait("@getIssues");
       // Check that no pagination is displayed
       cy.get("@next-button").should("have.attr", "disabled");
@@ -158,10 +159,9 @@ describe("Issue List", () => {
         .find("tbody")
         .find("tr")
         .each(($el, index) => {
-          const issue = filteredUnresolved.items[index];
+          const issue = filteredSearch.items[index];
           if (issue) {
             const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-            console.log(firstLineOfStackTrace);
             cy.wrap($el).contains(issue.name);
             cy.wrap($el).contains(issue.message);
             cy.wrap($el).contains(issue.numEvents);

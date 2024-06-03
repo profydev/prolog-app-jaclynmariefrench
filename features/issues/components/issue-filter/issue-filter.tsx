@@ -147,7 +147,7 @@ export function IssueFilter({ showButton = true }) {
           allowReselectPlaceholder={true}
         />
         <InputBox
-          data-testid="search-input"
+          dataTestId="search-input"
           onChange={handleSearchChange}
           initialValue={search}
           placeholder="Project Name"

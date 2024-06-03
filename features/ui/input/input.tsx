@@ -24,6 +24,7 @@ type InputBoxProps = {
     hint?: string;
     error?: string;
   };
+  dataTestId?: string;
 };
 
 export const InputBox = forwardRef<
@@ -41,6 +42,7 @@ export const InputBox = forwardRef<
       error,
       initialValue,
       classNames = {},
+      dataTestId,
     },
     ref,
   ) => {
@@ -71,6 +73,7 @@ export const InputBox = forwardRef<
         <div className={`${styles.inputWrapper} ${classNames.wrapper || ""}`}>
           {icon && <div className={styles.inputIcon}>{icon}</div>}
           <input
+            data-testid={dataTestId}
             placeholder={placeholder}
             className={`${styles.inputBox} ${icon ? styles.inputBoxWithIcon : ""} ${error ? styles.errorContainer : ""} ${classNames.input}`}
             onChange={handleInputChange}
