@@ -127,6 +127,8 @@ export function IssueFilter({ showButton = true }) {
       )}
       <div className={styles.rightGroup}>
         <SelectBox
+          dataTestId="status-select"
+          data-test-test="tester"
           classNames={{ button: styles.selectFilter }}
           ref={statusRef}
           options={issueStatus}
@@ -136,6 +138,7 @@ export function IssueFilter({ showButton = true }) {
         />
 
         <SelectBox
+          dataTestId="level-select"
           classNames={{ button: styles.selectFilter }}
           ref={levelRef}
           options={issueLevels}
@@ -144,6 +147,7 @@ export function IssueFilter({ showButton = true }) {
           allowReselectPlaceholder={true}
         />
         <InputBox
+          data-testid="search-input"
           onChange={handleSearchChange}
           initialValue={search}
           placeholder="Project Name"
