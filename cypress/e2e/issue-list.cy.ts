@@ -124,11 +124,12 @@ describe("Issue List", () => {
         .each(($el, index) => {
           const issue = filteredWarning.items[index];
           const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-          cy.wrap($el).contains(issue.name);
-          cy.wrap($el).contains(issue.message);
-          cy.wrap($el).contains(issue.numEvents);
-          cy.wrap($el).contains(issue.numUsers);
-          cy.wrap($el).contains(firstLineOfStackTrace);
+          cy.wrap($el).as("currentEl");
+          cy.get("@currentEl").contains(issue.name);
+          cy.get("@currentEl").contains(issue.message);
+          cy.get("@currentEl").contains(issue.numEvents);
+          cy.get("@currentEl").contains(issue.numUsers);
+          cy.get("@currentEl").contains(firstLineOfStackTrace);
         });
       cy.url().should("include", "issues?level=warning");
 
@@ -148,12 +149,12 @@ describe("Issue List", () => {
           const issue = filteredUnresolved.items[index];
           if (issue) {
             const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-            console.log(firstLineOfStackTrace);
-            cy.wrap($el).contains(issue.name);
-            cy.wrap($el).contains(issue.message);
-            cy.wrap($el).contains(issue.numEvents);
-            cy.wrap($el).contains(issue.numUsers);
-            cy.wrap($el).contains(firstLineOfStackTrace);
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
       cy.url().should("include", "issues?level=warning&status=unresolved");
@@ -173,11 +174,12 @@ describe("Issue List", () => {
           const issue = filteredSearch.items[index];
           if (issue) {
             const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-            cy.wrap($el).contains(issue.name);
-            cy.wrap($el).contains(issue.message);
-            cy.wrap($el).contains(issue.numEvents);
-            cy.wrap($el).contains(issue.numUsers);
-            cy.wrap($el).contains(firstLineOfStackTrace);
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
       cy.url().should(
@@ -205,11 +207,12 @@ describe("Issue List", () => {
           const issue = filteredClearSelect.items[index];
           if (issue) {
             const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
-            cy.wrap($el).contains(issue.name);
-            cy.wrap($el).contains(issue.message);
-            cy.wrap($el).contains(issue.numEvents);
-            cy.wrap($el).contains(issue.numUsers);
-            cy.wrap($el).contains(firstLineOfStackTrace);
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
       cy.url().should("include", "issues?level=&status=unresolved&project=fro");
