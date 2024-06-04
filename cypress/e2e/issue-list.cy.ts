@@ -40,10 +40,6 @@ describe("Issue List", () => {
           fixtureMap[key as keyof typeof fixtureMap] ||
           fixtureMap[page as keyof typeof fixtureMap];
 
-        console.log("Request parameters:", { page, level, status, project });
-        console.log("Generated key:", key);
-        console.log("Fixture map:", fixtureMap);
-
         if (fixture) {
           req.reply({ body: fixture });
         }
