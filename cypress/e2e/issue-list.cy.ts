@@ -1,6 +1,21 @@
 import mockIssues1 from "../fixtures/issues-page-1.json";
 import mockIssues2 from "../fixtures/issues-page-2.json";
 import mockIssues3 from "../fixtures/issues-page-3.json";
+import filteredWarning from "../fixtures/issues-page-filter-warning.json";
+import filteredUnresolved from "../fixtures/issues-page-filter-unresolved.json";
+import filteredSearch from "../fixtures/issues-page-filter-project-search.json";
+import filteredClearSelect from "../fixtures/issues-page-filter-clear-select.json";
+
+const fixtureMap = {
+  warning_open_fro: filteredSearch,
+  warning_open: filteredUnresolved,
+  warning: filteredWarning,
+  unresolved: filteredUnresolved,
+  cleared_open_fro: filteredClearSelect,
+  "1": mockIssues1,
+  "2": mockIssues2,
+  "3": mockIssues3,
+};
 
 describe("Issue List", () => {
   beforeEach(() => {
@@ -8,21 +23,37 @@ describe("Issue List", () => {
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
     }).as("getProjects");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=1", {
-      fixture: "issues-page-1.json",
-    }).as("getIssuesPage1");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=2", {
-      fixture: "issues-page-2.json",
-    }).as("getIssuesPage2");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=3", {
-      fixture: "issues-page-3.json",
-    }).as("getIssuesPage3");
+
+    cy.intercept(
+      "GET",
+      /https:\/\/prolog-api\.profy\.dev\/issue\?page=(\d+)/,
+      (req) => {
+        const url = new URL(req.url);
+        const page = url.searchParams.get("page");
+        const level = url.searchParams.get("level") || "cleared";
+        const status = url.searchParams.get("status");
+        const project = url.searchParams.get("project");
+
+        // Generate the key for the fixture map
+        const key = [level, status, project].filter(Boolean).join("_");
+        const fixture =
+          fixtureMap[key as keyof typeof fixtureMap] ||
+          fixtureMap[page as keyof typeof fixtureMap];
+
+        if (fixture) {
+          req.reply({ body: fixture });
+        }
+      },
+    ).as("getIssues");
+
+    // wait for intercepts to be set up
+    cy.wait(0);
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);
 
     // wait for request to resolve
-    cy.wait(["@getProjects", "@getIssuesPage1"]);
+    cy.wait(["@getProjects", "@getIssues"]);
     cy.wait(500);
 
     // set button aliases
@@ -57,31 +88,134 @@ describe("Issue List", () => {
 
       // test navigation to second page
       cy.get("@next-button").click();
+      cy.wait("@getIssues");
       cy.get("@prev-button").should("not.have.attr", "disabled");
       cy.contains("Page 2 of 3");
       cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
 
       // test navigation to third and last page
       cy.get("@next-button").click();
+      cy.wait("@getIssues");
       cy.get("@next-button").should("have.attr", "disabled");
       cy.contains("Page 3 of 3");
       cy.get("tbody tr:first").contains(mockIssues3.items[0].message);
 
       // test navigation back to second page
       cy.get("@prev-button").click();
+      cy.wait("@getIssues");
       cy.get("@next-button").should("not.have.attr", "disabled");
       cy.contains("Page 2 of 3");
       cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
     });
 
-    it("persists page after reload", () => {
-      cy.get("@next-button").click();
-      cy.contains("Page 2 of 3");
+    it("filtering is working", () => {
+      // simulate user actions that trigger the filters testing level filter
+      cy.get('[data-testid="level-select"]').click();
+      cy.get(
+        '[data-testid="level-select"] [data-testid="select-option-2"]',
+      ).click();
+      cy.wait("@getIssues");
+      // Check that no pagination is displayed
+      cy.get("@next-button").should("have.attr", "disabled");
+      cy.get("@prev-button").should("have.attr", "disabled");
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .each(($el, index) => {
+          const issue = filteredWarning.items[index];
+          const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+          cy.wrap($el).as("currentEl");
+          cy.get("@currentEl").contains(issue.name);
+          cy.get("@currentEl").contains(issue.message);
+          cy.get("@currentEl").contains(issue.numEvents);
+          cy.get("@currentEl").contains(issue.numUsers);
+          cy.get("@currentEl").contains(firstLineOfStackTrace);
+        });
+      cy.url().should("include", "issues?level=warning");
 
+      // simulate filtering to unresolved
+      cy.get('[data-testid="status-select"]').click();
+      cy.get(
+        '[data-testid="status-select"] [data-testid="select-option-1"]',
+      ).click();
+      cy.wait("@getIssues");
+      // Check that no pagination is displayed
+      cy.get("@next-button").should("have.attr", "disabled");
+      cy.get("@prev-button").should("have.attr", "disabled");
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .each(($el, index) => {
+          const issue = filteredUnresolved.items[index];
+          if (issue) {
+            const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
+          }
+        });
+      cy.url().should("include", "issues?level=warning&status=unresolved");
+
+      // simulate filtering to project id
+      cy.get('[data-testid="search-input"]')
+        .clear()
+        .type("fro", { delay: 700 });
+      cy.wait("@getIssues");
+      // Check that no pagination is displayed
+      cy.get("@next-button").should("have.attr", "disabled");
+      cy.get("@prev-button").should("have.attr", "disabled");
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .each(($el, index) => {
+          const issue = filteredSearch.items[index];
+          if (issue) {
+            const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
+          }
+        });
+      cy.url().should(
+        "include",
+        "issues?level=warning&status=unresolved&project=fro",
+      );
+
+      //test page reload
       cy.reload();
-      cy.wait(["@getProjects", "@getIssuesPage2"]);
-      cy.wait(1500);
-      cy.contains("Page 2 of 3");
+      cy.url().should(
+        "include",
+        "issues?level=warning&status=unresolved&project=fro",
+      );
+
+      //dropdowns empty to remove a filter
+      cy.get('[data-testid="level-select"]').click();
+      cy.get(
+        '[data-testid="level-select"] [data-testid="select-option-0"]',
+      ).click();
+      cy.wait("@getIssues");
+      cy.get("main")
+        .find("tbody")
+        .find("tr")
+        .each(($el, index) => {
+          const issue = filteredClearSelect.items[index];
+          if (issue) {
+            const firstLineOfStackTrace = issue.stack.split("\n")[1].trim();
+            cy.wrap($el).as("currentEl");
+            cy.get("@currentEl").contains(issue.name);
+            cy.get("@currentEl").contains(issue.message);
+            cy.get("@currentEl").contains(issue.numEvents);
+            cy.get("@currentEl").contains(issue.numUsers);
+            cy.get("@currentEl").contains(firstLineOfStackTrace);
+          }
+        });
+      cy.url().should("include", "issues?level=&status=unresolved&project=fro");
     });
   });
 });

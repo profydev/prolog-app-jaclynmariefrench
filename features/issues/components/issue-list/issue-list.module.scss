@@ -2,6 +2,19 @@
 @use "@styles/space";
 @use "@styles/font";
 
+.issueListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filterListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-self: stretch;
+}
+
 .container {
   background: white;
   border: 1px solid color.$gray-200;
@@ -27,6 +40,10 @@
   text-align: left;
   color: color.$gray-500;
   font: font.$text-xs-medium;
+}
+
+.checkboxCell {
+  display: flex;
 }
 
 .paginationContainer {

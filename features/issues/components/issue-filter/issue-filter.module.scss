@@ -1,0 +1,20 @@
+.filterContainer {
+  display: flex;
+  height: auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rightGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.selectFilter {
+  width: 10rem;
+}
+
+.inputFilter {
+  width: 14rem;
+}

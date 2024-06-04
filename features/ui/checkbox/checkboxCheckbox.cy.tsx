@@ -30,7 +30,7 @@ describe("<Checkbox />", () => {
 
         rerender(<Checkbox checked={true} onChange={() => {}} />);
         cy.get("input[type='checkbox']").should("be.checked");
-        cy.get("svg[data-testId=check]").should("be.visible");
+        cy.get("svg[data-testid=check]").should("be.visible");
       },
     );
   });
@@ -39,11 +39,11 @@ describe("<Checkbox />", () => {
     cy.mount(<Checkbox indeterminate={true} onChange={() => {}} />).then(
       ({ rerender }) => {
         cy.get("input[type='checkbox']:indeterminate").should("exist");
-        cy.get("svg[data-testId=indeterminate-check]").should("be.visible");
+        cy.get("svg[data-testid=indeterminate-check]").should("be.visible");
 
         rerender(<Checkbox indeterminate={false} onChange={() => {}} />);
         cy.get("input[type='checkbox']:indeterminate").should("not.exist");
-        cy.get("svg[data-testId=indeterminate-check]").should("not.be.visible");
+        cy.get("svg[data-testid=indeterminate-check]").should("not.be.visible");
       },
     );
   });

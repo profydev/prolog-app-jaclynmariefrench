@@ -1,13 +1,21 @@
 import capitalize from "lodash/capitalize";
-import { Badge, BadgeColor, BadgeSize } from "@features/ui";
+import {
+  Badge,
+  BadgeColor,
+  BadgeSize,
+  Checkbox,
+  CheckboxSize,
+} from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
-import { IssueLevel } from "@api/issues.types";
+import { IssueLevel, IssueStatus } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
 import styles from "./issue-row.module.scss";
 
 type IssueRowProps = {
   projectLanguage: ProjectLanguage;
   issue: Issue;
+  isChecked: boolean;
+  onCheckboxChange: () => void;
 };
 
 const levelColors = {
@@ -16,13 +24,26 @@ const levelColors = {
   [IssueLevel.error]: BadgeColor.error,
 };
 
-export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
+export function IssueRow({
+  projectLanguage,
+  issue,
+  isChecked,
+  onCheckboxChange,
+  status,
+}: IssueRowProps & { status: IssueStatus }) {
   const { name, message, stack, level, numEvents, numUsers } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
+        {status === IssueStatus.unresolved && (
+          <Checkbox
+            size={CheckboxSize.Small}
+            checked={isChecked}
+            onChange={onCheckboxChange}
+          />
+        )}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className={styles.languageIcon}
@@ -38,7 +59,10 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
         </div>
       </td>
       <td className={styles.cell}>
-        <Badge color={levelColors[level]} size={BadgeSize.sm}>
+        <Badge
+          color={levelColors[level as keyof typeof levelColors]}
+          size={BadgeSize.sm}
+        >
           {capitalize(level)}
         </Badge>
       </td>
