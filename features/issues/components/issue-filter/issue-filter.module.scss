@@ -1,14 +1,16 @@
+@use "@styles/space" as *;
+
 .filterContainer {
   display: flex;
   height: auto;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: $s4;
 }
 
 .rightGroup {
   display: flex;
-  gap: 1rem;
+  gap: $s4;
 }
 
 .selectFilter {

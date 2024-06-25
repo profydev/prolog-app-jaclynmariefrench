@@ -1,76 +1,76 @@
-@use "@styles/color";
-@use "@styles/font";
-@use "@styles/space";
-@use "@styles/shadow";
+@use "@styles/color" as *;
+@use "@styles/font" as *;
+@use "@styles/space" as *;
+@use "@styles/shadow" as *;
 
 .selectBoxContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.375rem;
+  gap: $s2;
   align-self: stretch;
 }
 
 .selectContainer {
   position: relative;
   display: flex;
-  padding: 0.625rem 0.875rem;
+  padding: $s3 $s4;
   width: 18rem;
   align-items: center;
   justify-content: space-between;
-  border-radius: 0.5rem;
-  border: 1px solid color.$gray-300;
-  background: color.$white;
-  box-shadow: shadow.$xs;
-  gap: 0.5rem;
-  font: font.$text-md-regular;
-  color: color.$gray-900;
+  border-radius: $s2;
+  border: 1px solid $gray-300;
+  background: $white;
+  box-shadow: $xs;
+  gap: $s2;
+  font: $text-md-regular;
+  color: $gray-900;
   cursor: pointer;
 
   &:focus {
     outline: none;
-    border: 1px solid color.$primary-300;
-    box-shadow: shadow.$xs, shadow.$focus-primary;
+    border: 1px solid $primary-300;
+    box-shadow: $xs, $focus-primary;
   }
 
   &:disabled {
     cursor: not-allowed;
-    border: 1px solid color.$gray-300;
-    background: color.$gray-50;
-    box-shadow: shadow.$xs;
-    color: color.$gray-500;
+    border: 1px solid $gray-300;
+    background: $gray-50;
+    box-shadow: $xs;
+    color: $gray-500;
   }
 }
 
 .errorContainer {
-  border: 1px solid color.$error-300;
+  border: 1px solid $error-300;
 
   &:focus {
-    border: 1px solid color.$error-300;
-    box-shadow: shadow.$xs, shadow.$focus-error;
+    border: 1px solid $error-300;
+    box-shadow: $xs, $focus-error;
   }
 }
 
 .selectContainer.placeholder {
-  color: color.$gray-500;
+  color: $gray-500;
 }
 
 .selectedBase {
-  background: color.$primary-25;
+  background: $primary-25;
   display: flex;
-  gap: 0.5rem;
+  gap: $s2;
 }
 
 .options {
   position: absolute;
   left: 0;
   width: 100%;
-  border-radius: 0.5rem;
-  background: color.$white;
-  box-shadow: shadow.$lg;
+  border-radius: $s2;
+  background: $white;
+  box-shadow: $lg;
   margin-top: 10rem;
   display: flex;
-  padding: 0.25rem 0;
+  padding: $s1 $s0;
   flex-direction: column;
   align-items: flex-start;
   flex: 1 0 0;
@@ -79,46 +79,46 @@
 .option {
   cursor: pointer;
   display: flex;
-  padding: 0.625rem 0.875rem;
+  padding: $s3 $s4;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: $s2;
   align-self: stretch;
-  color: color.$gray-900;
-  font: font.$text-md-regular;
+  color: $gray-900;
+  font: $text-md-regular;
 
   &:hover {
-    background: color.$primary-50;
+    background: $primary-50;
   }
 }
 
 .option.selected {
-  background: color.$primary-25;
+  background: $primary-25;
 }
 
 .arrowIcon,
 .checkIcon,
 .openIcon,
 .selectIcon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: $s5;
+  height: $s5;
 }
 
 .label {
-  color: color.$gray-700;
-  font: font.$text-sm-medium;
+  color: $gray-700;
+  font: $text-sm-medium;
 }
 
 .hint {
-  color: color.$gray-500;
-  font: font.$text-sm-regular;
+  color: $gray-500;
+  font: $text-sm-regular;
 }
 
 .errorText {
-  color: color.$error-500;
-  font: font.$text-sm-regular;
+  color: $error-500;
+  font: $text-sm-regular;
 }
 
 .placeholderOption {
-  color: color.$gray-500;
+  color: $gray-500;
 }

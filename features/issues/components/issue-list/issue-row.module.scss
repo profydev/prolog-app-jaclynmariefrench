@@ -1,15 +1,15 @@
-@use "@styles/color";
-@use "@styles/space";
-@use "@styles/font";
+@use "@styles/color" as *;
+@use "@styles/space" as *;
+@use "@styles/font" as *;
 
 .row:nth-child(2n) {
-  background: color.$gray-50;
+  background: $gray-50;
 }
 
 .cell {
-  padding: space.$s4 space.$s6;
-  color: color.$gray-500;
-  font: font.$text-sm-regular;
+  padding: $s4 $s6;
+  color: $gray-500;
+  font: $text-sm-regular;
 }
 
 .issueCell {
@@ -19,14 +19,14 @@
 }
 
 .languageIcon {
-  width: space.$s10;
-  margin-right: space.$s3;
+  width: $s10;
+  margin-right: $s3;
 }
 
 .errorTypeAndMessage {
-  color: color.$gray-900;
+  color: $gray-900;
 }
 
 .errorType {
-  font: font.$text-sm-medium;
+  font: $text-sm-medium;
 }
