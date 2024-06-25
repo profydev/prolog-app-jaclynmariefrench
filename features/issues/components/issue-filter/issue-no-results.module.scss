@@ -1,13 +1,13 @@
-@use "@styles/color";
-@use "@styles/space";
-@use "@styles/font";
+@use "@styles/color" as *;
+@use "@styles/space" as *;
+@use "@styles/font" as *;
 
 .noResultContainer {
   display: flex;
-  padding: 0 2rem;
+  padding: 0 $s8;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: $s20;
 }
 
 .contentContainer {
@@ -23,27 +23,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: $s1;
   align-self: stretch;
 }
 
 .header {
-  color: color.$gray-900;
+  color: $gray-900;
   text-align: center;
-  font: font.$text-md-medium;
+  font: $text-md-medium;
   height: 0;
 }
 
 .paragraph {
-  color: color.$gray-500;
+  color: $gray-500;
   text-align: center;
-  font: font.$text-sm-regular;
+  font: $text-sm-regular;
 }
 
 .button {
   display: flex;
   align-items: flex-start;
-  gap: 0.8125rem;
+  gap: $s4;
   align-self: stretch;
   width: 22rem;
 }

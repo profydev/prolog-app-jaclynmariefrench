@@ -1,20 +1,21 @@
-@use "@styles/color";
-@use "@styles/font";
-@use "@styles/breakpoint";
+@use "@styles/color" as *;
+@use "@styles/font" as *;
+@use "styles/breakpoint" as *;
+@use "styles/space" as *;
 
 .error-container {
-  background-color: color.$error-25;
-  color: color.$error-700;
+  background-color: $error-25;
+  color: $error-700;
   display: grid;
-  grid-template-columns: minmax(40px, 2fr) minmax(20px, 1fr);
-  border: color.$error-300 solid 1px;
-  border-radius: 0.5rem;
-  font: font.$text-sm-medium;
+  grid-template-columns: minmax($s10, 2fr) minmax($s5, 1fr);
+  border: $error-300 solid 1px;
+  border-radius: $s2;
+  font: $text-sm-medium;
   width: 94vw;
-  padding: 0 1rem;
+  padding: 0 $s4;
   box-sizing: border-box;
 
-  @media (min-width: breakpoint.$desktop) {
+  @media (min-width: $desktop) {
     grid-template-columns: 1fr 1fr;
     width: 70vw;
   }
@@ -25,23 +26,23 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.75rem;
+  gap: $s7;
   letter-spacing: 0.5px;
   word-wrap: break-word;
 }
 
 .right-banner {
   justify-self: end;
-  color: color.$error-700;
+  color: $error-700;
   border: none;
   background: transparent;
   cursor: pointer;
 }
 
 .alert-circle {
-  color: color.$error-600;
+  color: $error-600;
 }
 
 .error-arrow {
-  color: color.$error-700;
+  color: $error-700;
 }

@@ -1,23 +1,23 @@
-@use "@styles/color";
-@use "@styles/font";
-@use "@styles/space";
-@use "@styles/shadow";
+@use "@styles/color" as *;
+@use "@styles/font" as *;
+@use "@styles/space" as *;
+@use "@styles/shadow" as *;
 
 .checkbox {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: space.$s1;
-  border: 1px solid color.$gray-300;
-  background: color.$white;
-  color: color.$primary-600;
-  min-width: 1rem;
-  min-height: 1rem;
+  border-radius: $s1;
+  border: 1px solid $gray-300;
+  background: $white;
+  color: $primary-600;
+  min-width: $s4;
+  min-height: $s4;
 }
 
 .small {
-  font: font.$text-sm-medium;
-  gap: space.$s2;
+  font: $text-sm-medium;
+  gap: $s2;
 
   & .check,
   & .indeterminateCheck {
@@ -25,14 +25,14 @@
   }
 
   & .checkbox {
-    width: 1rem;
-    height: 1rem;
+    width: $s4;
+    height: $s4;
   }
 }
 
 .medium {
-  font: font.$text-md-medium;
-  gap: space.$s3;
+  font: $text-md-medium;
+  gap: $s3;
 
   & .check,
   & .indeterminateCheck {
@@ -40,15 +40,15 @@
   }
 
   & .checkbox {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: $s5;
+    height: $s5;
   }
 }
 
 .small .checkbox:hover,
 .medium .checkbox:hover {
-  border-color: color.$primary-600;
-  background: color.$primary-50;
+  border-color: $primary-600;
+  background: $primary-50;
 }
 
 .checkbox.indeterminate .indeterminateCheck {
@@ -60,8 +60,8 @@
   cursor: pointer;
 
   &:focus-within .checkbox {
-    box-shadow: shadow.$focus-primary;
-    border-color: color.$primary-300;
+    box-shadow: $focus-primary;
+    border-color: $primary-300;
   }
 
   & input {
@@ -69,8 +69,8 @@
     position: absolute;
 
     &:checked ~ .checkbox {
-      border-color: color.$primary-600;
-      background: color.$primary-50;
+      border-color: $primary-600;
+      background: $primary-50;
 
       .check {
         display: block;
@@ -78,8 +78,8 @@
     }
 
     &:indeterminate ~ .checkbox {
-      border-color: color.$primary-600;
-      background: color.$primary-50;
+      border-color: $primary-600;
+      background: $primary-50;
 
       .indeterminateCheck {
         display: block;
@@ -88,12 +88,12 @@
   }
 
   & input:disabled ~ .checkbox {
-    border: 1px solid color.$gray-200;
-    background: color.$gray-100;
+    border: 1px solid $gray-200;
+    background: $gray-100;
   }
 
   & input:disabled ~ * {
-    color: color.$gray-300;
+    color: $gray-300;
     cursor: not-allowed;
   }
 }
