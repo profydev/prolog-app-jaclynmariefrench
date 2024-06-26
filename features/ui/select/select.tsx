@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useState,
-  ReactElement,
-} from "react";
+import React, { forwardRef, ReactElement, useState, useEffect } from "react";
 import styles from "./select.module.scss";
 
 type Option = {
@@ -15,6 +10,7 @@ type SelectBoxProps = {
   options: Option[];
   onChange: (value: string) => void;
   placeholder: string;
+  value?: string;
   disabled?: boolean;
   icon?: ReactElement;
   label?: string;
@@ -33,11 +29,12 @@ type SelectBoxProps = {
 export const SelectBox = forwardRef<
   { setValue: (value: string) => void },
   SelectBoxProps
->((props, ref) => {
+>((props) => {
   const {
     options,
     onChange,
     placeholder,
+    value: propValue,
     disabled,
     icon,
     label,
@@ -48,20 +45,36 @@ export const SelectBox = forwardRef<
     dataTestId,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedValue, setSelectedValue] = useState(propValue);
+
+  useEffect(() => {
+    setSelectedValue(propValue);
+  }, [propValue]);
+
+  const selectedOption =
+    options.find((option) => option.value === selectedValue) || null;
 
   const handleOptionClick = (option: Option) => {
-    setSelectedOption(option);
+    setSelectedValue(option.value);
     onChange(option.value);
+    setIsOpen(false);
   };
 
-  // This allows the parent component to control the value of the select box
-  useImperativeHandle(ref, () => ({
-    setValue: (value: string) => {
-      const option = options.find((option) => option.value === value);
-      setSelectedOption(option || null);
-    },
-  }));
+  // With this the parent would be able to set the value on its child right? like
+  // function Parent() {
+  //   const select = useRef();
+  //   return (
+  //    <>
+  //      <Select ref={select} />
+  //      <button onClick={() => select.current.setValue(1)}>
+  //       Set value
+  //     </button>
+  //   </>
+  //   )
+  // }
+  // I'd consider this an anti pattern tbh. Communitcation from the parent to its children usually works via props and
+  // from a child to its parent via callbacks (like an onClick handler). So in this case it would be better add a value
+  // prop to the Select component so the parent can control the value. That's also referred to as a "controlled" component.
 
   const allOptions = allowReselectPlaceholder
     ? [{ value: "", label: placeholder }, ...options]
