@@ -75,9 +75,6 @@ describe("Project List", () => {
         });
     });
 
-    // Comment from Johannes You could remove the capitalize function here
-    // and adjust the expectedText above accordingly.
-
     it("error screen and page reload successful", () => {
       //set up failed GET call
       cy.intercept("GET", "https://prolog-api.profy.dev/project", (req) => {
