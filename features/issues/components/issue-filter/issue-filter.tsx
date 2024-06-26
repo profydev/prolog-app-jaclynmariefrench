@@ -48,11 +48,6 @@ export function IssueFilter({ showButton = true }) {
   const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
 
   useEffect(() => {
-    statusRef.current?.setValue(status as string);
-    levelRef.current?.setValue(level as string);
-  }, [status, level]);
-
-  useEffect(() => {
     if (router.isReady && router.query.project) {
       const projectNameFromUrl = Array.isArray(router.query.project)
         ? router.query.project[0]

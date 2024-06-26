@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useState,
-  ReactElement,
-} from "react";
+import React, { forwardRef, ReactElement, useState, useEffect } from "react";
 import styles from "./select.module.scss";
 
 type Option = {
@@ -15,6 +10,7 @@ type SelectBoxProps = {
   options: Option[];
   onChange: (value: string) => void;
   placeholder: string;
+  value?: string;
   disabled?: boolean;
   icon?: ReactElement;
   label?: string;
@@ -33,11 +29,12 @@ type SelectBoxProps = {
 export const SelectBox = forwardRef<
   { setValue: (value: string) => void },
   SelectBoxProps
->((props, ref) => {
+>((props) => {
   const {
     options,
     onChange,
     placeholder,
+    value: propValue,
     disabled,
     icon,
     label,
@@ -48,20 +45,20 @@ export const SelectBox = forwardRef<
     dataTestId,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedValue, setSelectedValue] = useState(propValue);
+
+  useEffect(() => {
+    setSelectedValue(propValue);
+  }, [propValue]);
+
+  const selectedOption =
+    options.find((option) => option.value === selectedValue) || null;
 
   const handleOptionClick = (option: Option) => {
-    setSelectedOption(option);
+    setSelectedValue(option.value);
     onChange(option.value);
+    setIsOpen(false);
   };
-
-  // This allows the parent component to control the value of the select box
-  useImperativeHandle(ref, () => ({
-    setValue: (value: string) => {
-      const option = options.find((option) => option.value === value);
-      setSelectedOption(option || null);
-    },
-  }));
 
   const allOptions = allowReselectPlaceholder
     ? [{ value: "", label: placeholder }, ...options]
