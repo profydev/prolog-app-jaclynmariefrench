@@ -60,22 +60,6 @@ export const SelectBox = forwardRef<
     setIsOpen(false);
   };
 
-  // With this the parent would be able to set the value on its child right? like
-  // function Parent() {
-  //   const select = useRef();
-  //   return (
-  //    <>
-  //      <Select ref={select} />
-  //      <button onClick={() => select.current.setValue(1)}>
-  //       Set value
-  //     </button>
-  //   </>
-  //   )
-  // }
-  // I'd consider this an anti pattern tbh. Communitcation from the parent to its children usually works via props and
-  // from a child to its parent via callbacks (like an onClick handler). So in this case it would be better add a value
-  // prop to the Select component so the parent can control the value. That's also referred to as a "controlled" component.
-
   const allOptions = allowReselectPlaceholder
     ? [{ value: "", label: placeholder }, ...options]
     : options;
