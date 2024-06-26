@@ -1,4 +1,3 @@
-import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
@@ -46,17 +45,17 @@ describe("Project List", () => {
           switch (mockProjects[index].status) {
             case "error":
               expectedColor = "rgb(254, 243, 242)";
-              expectedText = "critical";
+              expectedText = "Critical";
               badgeColor = "error";
               break;
             case "info":
               expectedColor = "rgb(236, 253, 243)";
-              expectedText = "stable";
+              expectedText = "Stable";
               badgeColor = "success";
               break;
             case "warning":
               expectedColor = "rgb(255, 250, 235)";
-              expectedText = "warning";
+              expectedText = "Warning";
               badgeColor = "warning";
               break;
           }
@@ -69,7 +68,7 @@ describe("Project List", () => {
             .find(`[data-testid="badge-${badgeColor}"]`)
             .should("exist")
             .and("have.css", "background-color", expectedColor)
-            .and("contain", capitalize(expectedText));
+            .and("contain", expectedText);
           cy.wrap($el)
             .find("a")
             .should("have.attr", "href", "/dashboard/issues");
