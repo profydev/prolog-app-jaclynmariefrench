@@ -27,22 +27,22 @@ export function SidebarNavigation({ className }: SidebarNavigationProps) {
 
   //State for if it's mobile view or not and accounts for the server side rendering delay
   const [isMobileView, setIsMobileView] = useState(
-    typeof window !== "undefined" ? window.innerWidth <= 1023 : false,
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 1024px)").matches
+      : false,
   );
 
   useEffect(() => {
     const handleWindowResize = () => {
-      setIsMobileView(window.innerWidth <= 1023);
+      setIsMobileView(window.matchMedia("(max-width: 1024px)").matches);
     };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleWindowResize);
+    window.addEventListener("resize", handleWindowResize);
 
-      //Cleans event listener
-      return () => {
-        window.removeEventListener("resize", handleWindowResize);
-      };
-    }
+    //Cleans event listener
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
   }, []);
 
   return (
