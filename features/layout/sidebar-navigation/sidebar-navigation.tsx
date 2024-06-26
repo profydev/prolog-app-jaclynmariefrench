@@ -28,17 +28,13 @@ export function SidebarNavigation({ className }: SidebarNavigationProps) {
   //State for if it's mobile view or not and accounts for the server side rendering delay
   const [isMobileView, setIsMobileView] = useState(
     typeof window !== "undefined"
-      ? window.matchMedia("(max-width: 1023px)").matches
+      ? window.matchMedia("(max-width: 1024px)").matches
       : false,
   );
 
-  //comment from Johannes An alternative to checking the window width would be to use matchMedia.
-  //There's actually a ready-made hook in on GitHub that could act as inspiration 😄
-  //And btw I usually try to get around JS media queries where possible and use CSS instead
-
   useEffect(() => {
     const handleWindowResize = () => {
-      setIsMobileView(window.matchMedia("(max-width: 1023px)").matches);
+      setIsMobileView(window.matchMedia("(max-width: 1024px)").matches);
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -48,8 +44,6 @@ export function SidebarNavigation({ className }: SidebarNavigationProps) {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
-
-  //comment from Johannes The useEffect only runs in the browser so it should be ok to remove the typeof window !== 'undefined check
 
   return (
     <div
