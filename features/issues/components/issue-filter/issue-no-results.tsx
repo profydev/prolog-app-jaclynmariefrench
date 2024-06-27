@@ -1,6 +1,6 @@
 import { Button, ButtonSize } from "@features/ui";
 import styles from "./issue-no-results.module.scss";
-import { IssueFilter } from "./issue-filter";
+import { IssueFilterComponent } from "./issue-filter";
 import { useRouter } from "next/router";
 
 export function IssueNoResults() {
@@ -17,7 +17,7 @@ export function IssueNoResults() {
     <div className={styles.noResultContainer}>
       <div className={styles.filterContainer}>
         <div>
-          <IssueFilter showButton={false} />
+          <IssueFilterComponent showButton={false} />
         </div>
       </div>
       <div className={styles.contentContainer}>

@@ -8,14 +8,15 @@ import {
   InputBox,
   InputIcon,
 } from "@features/ui";
-import { IssueLevel, IssueStatus } from "@api/issues.types";
+import { IssueLevel, IssueStatus, IssueFilter } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
-export function IssueFilter({ showButton = true }) {
+export function IssueFilterComponent({ showButton = true }) {
   const issueLevels = Object.values(IssueLevel).map((level) => ({
     value: level,
     label: capitalize(level),
@@ -27,38 +28,30 @@ export function IssueFilter({ showButton = true }) {
   }));
   const router = useRouter();
 
-  const projectNameFromUrl = Array.isArray(router.query.project)
-    ? router.query.project[0]
-    : router.query.project;
+  //IssueFilter is handling state
+  const [filter, setFilter] = useState<IssueFilter>({
+    projectName: Array.isArray(router.query.project)
+      ? router.query.project[0]
+      : router.query.project,
+    status: router.query.status as IssueStatus | undefined,
+    level: router.query.level as IssueLevel | undefined,
+  });
 
-  const [search, setSearch] = useState(projectNameFromUrl || "");
-  const [debouncedSearch, setDebouncedSearch] = useState(
-    projectNameFromUrl || "",
-  );
-
-  const rawStatus = router.query.status;
-  const rawLevel = router.query.level;
-
-  const status =
-    typeof rawStatus === "string" ? (rawStatus as IssueStatus) : undefined;
-  const level =
-    typeof rawLevel === "string" ? (rawLevel as IssueLevel) : undefined;
-
-  const statusRef = useRef<{ setValue: (value: string) => void } | null>(null);
-  const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
-
+  //Update filter state based on URL changes
   useEffect(() => {
-    if (router.isReady && router.query.project) {
-      const projectNameFromUrl = Array.isArray(router.query.project)
-        ? router.query.project[0]
-        : router.query.project;
-
-      setSearch(projectNameFromUrl || "");
-      setDebouncedSearch(projectNameFromUrl || "");
+    if (router.isReady) {
+      setFilter({
+        projectName: Array.isArray(router.query.project)
+          ? router.query.project[0]
+          : router.query.project,
+        status: router.query.status as IssueStatus | undefined,
+        level: router.query.level as IssueLevel | undefined,
+      });
     }
-  }, [router.isReady, router.query.project]);
+  }, [router.isReady, router.query]);
 
   const handleStatusChange = (selectedStatus: string) => {
+    setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
     router.push({
       pathname: router.pathname,
       query: { ...router.query, status: selectedStatus },
@@ -66,44 +59,27 @@ export function IssueFilter({ showButton = true }) {
   };
 
   const handleLevelChange = (selectedLevel: string) => {
+    setFilter((prev) => ({ ...prev, level: selectedLevel as IssueLevel }));
     router.push({
       pathname: router.pathname,
       query: { ...router.query, level: selectedLevel },
     });
   };
 
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null,
-  );
+  // Inside the component
+  const debouncedRouterPush = debounce((value: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, project: value },
+    });
+  }, 500);
 
   const handleSearchChange = (value: string) => {
-    setSearch(value);
-
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-    }
-
-    setSearchTimeout(
-      setTimeout(() => {
-        // Update the URL even when the input is empty
-        router.push({
-          pathname: router.pathname,
-          query: { ...router.query, project: value },
-        });
-        setDebouncedSearch(value);
-      }, 500),
-    );
+    setFilter((prev) => ({ ...prev, projectName: value }));
+    debouncedRouterPush(value);
   };
 
-  useEffect(() => {
-    return () => {
-      if (searchTimeout) {
-        clearTimeout(searchTimeout);
-      }
-    };
-  }, [searchTimeout]);
-
-  useGetIssues(1, status, level, debouncedSearch);
+  useGetIssues(1, filter.status, filter.level, filter.projectName);
 
   return (
     <div className={styles.filterContainer}>
@@ -125,7 +101,6 @@ export function IssueFilter({ showButton = true }) {
           dataTestId="status-select"
           data-test-test="tester"
           classNames={{ button: styles.selectFilter }}
-          ref={statusRef}
           options={issueStatus}
           onChange={handleStatusChange}
           placeholder="Status"
@@ -135,7 +110,6 @@ export function IssueFilter({ showButton = true }) {
         <SelectBox
           dataTestId="level-select"
           classNames={{ button: styles.selectFilter }}
-          ref={levelRef}
           options={issueLevels}
           onChange={handleLevelChange}
           placeholder="Level"
@@ -144,7 +118,7 @@ export function IssueFilter({ showButton = true }) {
         <InputBox
           dataTestId="search-input"
           onChange={handleSearchChange}
-          initialValue={search}
+          initialValue={filter.projectName}
           placeholder="Project Name"
           disabled={false}
           classNames={{ input: styles.inputFilter }}

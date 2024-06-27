@@ -9,6 +9,12 @@ export enum IssueStatus {
   resolved = "resolved",
 }
 
+export type IssueFilter = {
+  projectName?: string;
+  status?: IssueStatus;
+  level?: IssueLevel;
+};
+
 export type Issue = {
   id: string;
   projectId: string;

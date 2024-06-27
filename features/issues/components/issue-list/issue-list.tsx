@@ -4,7 +4,7 @@ import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
-import { IssueFilter, IssueNoResults } from "../issue-filter";
+import { IssueFilterComponent, IssueNoResults } from "../issue-filter";
 import { IssueLevel, IssueStatus } from "@api/issues.types";
 import { Checkbox, CheckboxSize } from "@features/ui";
 import { useState } from "react";
@@ -100,7 +100,7 @@ export function IssueList() {
   return (
     <div className={styles.issueListContainer}>
       <div className={styles.filterListContainer}>
-        <IssueFilter />
+        <IssueFilterComponent />
       </div>
       <div className={styles.container}>
         <table className={styles.table}>
