@@ -15,8 +15,8 @@ export type Issue = {
   name: string;
   message: string;
   stack: string;
-  level: IssueLevel | undefined;
+  level?: IssueLevel;
   numEvents: number;
   numUsers: number;
-  status: IssueStatus | undefined;
+  status?: IssueStatus;
 };
