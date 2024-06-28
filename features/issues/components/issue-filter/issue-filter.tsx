@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { useDebounce } from "@uidotdev/usehooks";
 
 //Zod schema for validation
 const issueFilterSchema = z.object({
@@ -58,6 +59,9 @@ export function IssueFilterComponent({ showButton = true }) {
 
   const [filter, setFilter] = useState<IssueFilter>(initialFilter);
 
+  //debounce filter state to avoid unnecessary api calls when user is typing in input
+  const debouncedFilter = useDebounce(filter, 500);
+
   useEffect(() => {
     if (router.isReady) {
       const validatedFilter = issueFilterSchema.safeParse({
@@ -76,7 +80,7 @@ export function IssueFilterComponent({ showButton = true }) {
   useEffect(() => {
     const updatedQuery = {
       ...router.query,
-      project: filter.projectName || undefined,
+      project: debouncedFilter.projectName || undefined,
       status: filter.status,
       level: filter.level,
     };
@@ -89,7 +93,7 @@ export function IssueFilterComponent({ showButton = true }) {
       undefined,
       { shallow: true },
     );
-  }, [filter, router]);
+  }, [debouncedFilter, filter, router]);
 
   const handleStatusChange = (selectedStatus: string) => {
     setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
@@ -103,7 +107,7 @@ export function IssueFilterComponent({ showButton = true }) {
     setFilter((prev) => ({ ...prev, projectName: value }));
   };
 
-  useGetIssues(1, filter.status, filter.level, filter.projectName);
+  useGetIssues(1, filter.status, filter.level, debouncedFilter.projectName);
 
   return (
     <div className={styles.filterContainer}>
