@@ -16,16 +16,22 @@ import { useGetIssues } from "@features/issues";
 import { useEffect, useState } from "react";
 import { debounce } from "lodash";
 
-export function IssueFilterComponent({ showButton = true }) {
-  const issueLevels = Object.values(IssueLevel).map((level) => ({
-    value: level,
-    label: capitalize(level),
-  }));
+const statusConvertText: { [key in IssueStatus]: string } = {
+  [IssueStatus.open]: "Unresolved",
+  [IssueStatus.resolved]: "Resolved",
+};
 
-  const issueStatus = Object.values(IssueStatus).map((status) => ({
-    value: status,
-    label: capitalize(status),
-  }));
+const issueLevels = Object.values(IssueLevel).map((level) => ({
+  value: level,
+  label: capitalize(level),
+}));
+
+const issueStatus = Object.values(IssueStatus).map((status) => ({
+  value: status,
+  label: statusConvertText[status] ? statusConvertText[status] : status,
+}));
+
+export function IssueFilterComponent({ showButton = true }) {
   const router = useRouter();
 
   //IssueFilter is handling state

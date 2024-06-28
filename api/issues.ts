@@ -17,7 +17,3 @@ export async function getIssues(
   });
   return data;
 }
-
-// Comment from Johannes It might be simpler to define a IssueFilter type somewhere
-// at the API level (I mean in the /api folder so you don't have to type these
-// fields all the time.

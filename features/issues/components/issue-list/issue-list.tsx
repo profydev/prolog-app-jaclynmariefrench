@@ -107,7 +107,7 @@ export function IssueList() {
           <thead>
             <tr className={styles.headerRow}>
               <th className={`${styles.headerCell} ${styles.checkboxCell}`}>
-                {status === IssueStatus.unresolved && (
+                {status === IssueStatus.open && (
                   <Checkbox
                     size={CheckboxSize.Small}
                     checked={allChecked}
