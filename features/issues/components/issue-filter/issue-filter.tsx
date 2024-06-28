@@ -14,7 +14,6 @@ import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
 import { useEffect, useState } from "react";
-import { debounce } from "lodash";
 
 const statusConvertText: { [key in IssueStatus]: string } = {
   [IssueStatus.open]: "Unresolved",
@@ -34,27 +33,42 @@ const issueStatus = Object.values(IssueStatus).map((status) => ({
 export function IssueFilterComponent({ showButton = true }) {
   const router = useRouter();
 
-  //IssueFilter is handling state
+  // IssueFilter is handling state
   const [filter, setFilter] = useState<IssueFilter>({
     projectName: Array.isArray(router.query.project)
       ? router.query.project[0]
-      : router.query.project,
+      : (router.query.project as string | undefined), // Type Assertion
     status: router.query.status as IssueStatus | undefined,
     level: router.query.level as IssueLevel | undefined,
   });
 
-  //Update filter state based on URL changes
+  // Update filter state based on URL changes
   useEffect(() => {
     if (router.isReady) {
       setFilter({
         projectName: Array.isArray(router.query.project)
           ? router.query.project[0]
-          : router.query.project,
+          : (router.query.project as string | undefined), // Type Assertion
         status: router.query.status as IssueStatus | undefined,
         level: router.query.level as IssueLevel | undefined,
       });
     }
   }, [router.isReady, router.query]);
+
+  // Update the URL when projectName changes
+  useEffect(() => {
+    const updatedQuery = {
+      ...router.query,
+      project: filter.projectName || undefined,
+    };
+    if (filter.projectName === "") {
+      updatedQuery.project = undefined; // Remove the project parameter if the input is cleared
+    }
+    router.push({
+      pathname: router.pathname,
+      query: updatedQuery,
+    });
+  }, [filter.projectName, router]);
 
   const handleStatusChange = (selectedStatus: string) => {
     setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
@@ -72,17 +86,8 @@ export function IssueFilterComponent({ showButton = true }) {
     });
   };
 
-  // Inside the component
-  const debouncedRouterPush = debounce((value: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, project: value },
-    });
-  }, 500);
-
   const handleSearchChange = (value: string) => {
     setFilter((prev) => ({ ...prev, projectName: value }));
-    debouncedRouterPush(value);
   };
 
   useGetIssues(1, filter.status, filter.level, filter.projectName);
@@ -128,7 +133,7 @@ export function IssueFilterComponent({ showButton = true }) {
           placeholder="Project Name"
           disabled={false}
           classNames={{ input: styles.inputFilter }}
-          icon=<InputIcon src="/icons/search.svg" />
+          icon={<InputIcon src="/icons/search.svg" />}
         />
       </div>
     </div>
