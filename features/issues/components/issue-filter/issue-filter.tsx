@@ -14,6 +14,14 @@ import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+
+//Zod schema for validation
+const issueFilterSchema = z.object({
+  projectName: z.string().optional(),
+  status: z.nativeEnum(IssueStatus).optional(),
+  level: z.nativeEnum(IssueLevel).optional(),
+});
 
 const statusConvertText: { [key in IssueStatus]: string } = {
   [IssueStatus.open]: "Unresolved",
@@ -33,57 +41,62 @@ const issueStatus = Object.values(IssueStatus).map((status) => ({
 export function IssueFilterComponent({ showButton = true }) {
   const router = useRouter();
 
-  // IssueFilter is handling state
-  const [filter, setFilter] = useState<IssueFilter>({
+  //Initial filter stat with Zod validation
+  const initialFilter = issueFilterSchema.parse({
     projectName: Array.isArray(router.query.project)
       ? router.query.project[0]
-      : (router.query.project as string | undefined), // Type Assertion
-    status: router.query.status as IssueStatus | undefined,
-    level: router.query.level as IssueLevel | undefined,
+      : router.query.project,
+    status:
+      router.query.status === ""
+        ? undefined
+        : (router.query.status as IssueStatus | undefined),
+    level:
+      router.query.level === ""
+        ? undefined
+        : (router.query.level as IssueLevel | undefined),
   });
 
-  // Update filter state based on URL changes
+  const [filter, setFilter] = useState<IssueFilter>(initialFilter);
+
   useEffect(() => {
     if (router.isReady) {
-      setFilter({
+      const validatedFilter = issueFilterSchema.safeParse({
         projectName: Array.isArray(router.query.project)
           ? router.query.project[0]
-          : (router.query.project as string | undefined), // Type Assertion
+          : router.query.project,
         status: router.query.status as IssueStatus | undefined,
         level: router.query.level as IssueLevel | undefined,
       });
+      if (validatedFilter.success) {
+        setFilter(validatedFilter.data);
+      }
     }
   }, [router.isReady, router.query]);
 
-  // Update the URL when projectName changes
   useEffect(() => {
     const updatedQuery = {
       ...router.query,
       project: filter.projectName || undefined,
+      status: filter.status,
+      level: filter.level,
     };
-    if (filter.projectName === "") {
-      updatedQuery.project = undefined; // Remove the project parameter if the input is cleared
-    }
-    router.push({
-      pathname: router.pathname,
-      query: updatedQuery,
-    });
-  }, [filter.projectName, router]);
+
+    router.push(
+      {
+        pathname: router.pathname,
+        query: updatedQuery,
+      },
+      undefined,
+      { shallow: true },
+    );
+  }, [filter, router]);
 
   const handleStatusChange = (selectedStatus: string) => {
     setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, status: selectedStatus },
-    });
   };
 
   const handleLevelChange = (selectedLevel: string) => {
     setFilter((prev) => ({ ...prev, level: selectedLevel as IssueLevel }));
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, level: selectedLevel },
-    });
   };
 
   const handleSearchChange = (value: string) => {
