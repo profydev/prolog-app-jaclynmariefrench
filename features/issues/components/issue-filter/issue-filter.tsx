@@ -77,14 +77,13 @@ export function IssueFilterComponent({ showButton = true }) {
     }
   }, [router.isReady, router.query]);
 
-  useEffect(() => {
+  const updateQuery = (newFilter: IssueFilter) => {
     const updatedQuery = {
       ...router.query,
-      project: filter.projectName || undefined,
-      status: filter.status,
-      level: filter.level,
+      project: newFilter.projectName || undefined,
+      status: newFilter.status,
+      level: newFilter.level,
     };
-
     router.push(
       {
         pathname: router.pathname,
@@ -93,18 +92,24 @@ export function IssueFilterComponent({ showButton = true }) {
       undefined,
       { shallow: true },
     );
-  }, [filter, router]);
+  };
 
   const handleStatusChange = (selectedStatus: string) => {
-    setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
+    const newFilter = { ...filter, status: selectedStatus as IssueStatus };
+    setFilter(newFilter);
+    updateQuery(newFilter);
   };
 
   const handleLevelChange = (selectedLevel: string) => {
-    setFilter((prev) => ({ ...prev, level: selectedLevel as IssueLevel }));
+    const newFilter = { ...filter, level: selectedLevel as IssueLevel };
+    setFilter(newFilter);
+    updateQuery(newFilter);
   };
 
   const handleSearchChange = (value: string) => {
-    setFilter((prev) => ({ ...prev, projectName: value }));
+    const newFilter = { ...filter, projectName: value };
+    setFilter(newFilter);
+    updateQuery(newFilter);
   };
 
   useGetIssues(
