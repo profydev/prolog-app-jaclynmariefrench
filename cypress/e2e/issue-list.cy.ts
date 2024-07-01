@@ -131,7 +131,7 @@ describe("Issue List", () => {
           cy.get("@currentEl").contains(issue.numUsers);
           cy.get("@currentEl").contains(firstLineOfStackTrace);
         });
-      cy.url().should("include", "issues?level=warning");
+      cy.url().should("include", "issues?project=&status=&level=warning");
 
       // simulate filtering to unresolved
       cy.get('[data-testid="status-select"]').click();
@@ -157,12 +157,10 @@ describe("Issue List", () => {
             cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
-      cy.url().should("include", "issues?level=warning&status=unresolved");
+      cy.url().should("include", "issues?project=&status=open&level=warning");
 
       // simulate filtering to project id
-      cy.get('[data-testid="search-input"]')
-        .clear()
-        .type("fro", { delay: 700 });
+      cy.get('[data-testid="search-input"]').type("fro");
       cy.wait("@getIssues");
       // Check that no pagination is displayed
       cy.get("@next-button").should("have.attr", "disabled");
@@ -184,14 +182,14 @@ describe("Issue List", () => {
         });
       cy.url().should(
         "include",
-        "issues?level=warning&status=unresolved&project=fro",
+        "issues?level=warning&status=open&project=fro",
       );
 
       //test page reload
       cy.reload();
       cy.url().should(
         "include",
-        "issues?level=warning&status=unresolved&project=fro",
+        "issues?level=warning&status=open&project=fro",
       );
 
       //dropdowns empty to remove a filter
@@ -215,7 +213,7 @@ describe("Issue List", () => {
             cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
-      cy.url().should("include", "issues?level=&status=unresolved&project=fro");
+      cy.url().should("include", "issues?level=&status=open&project=fro");
     });
   });
 });

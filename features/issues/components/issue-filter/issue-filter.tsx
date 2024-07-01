@@ -80,7 +80,7 @@ export function IssueFilterComponent({ showButton = true }) {
   useEffect(() => {
     const updatedQuery = {
       ...router.query,
-      project: debouncedFilter.projectName || undefined,
+      project: filter.projectName || undefined,
       status: filter.status,
       level: filter.level,
     };
@@ -93,7 +93,7 @@ export function IssueFilterComponent({ showButton = true }) {
       undefined,
       { shallow: true },
     );
-  }, [debouncedFilter, filter, router]);
+  }, [filter, router]);
 
   const handleStatusChange = (selectedStatus: string) => {
     setFilter((prev) => ({ ...prev, status: selectedStatus as IssueStatus }));
@@ -107,7 +107,12 @@ export function IssueFilterComponent({ showButton = true }) {
     setFilter((prev) => ({ ...prev, projectName: value }));
   };
 
-  useGetIssues(1, filter.status, filter.level, debouncedFilter.projectName);
+  useGetIssues(
+    1,
+    debouncedFilter.status,
+    debouncedFilter.level,
+    debouncedFilter.projectName,
+  );
 
   return (
     <div className={styles.filterContainer}>
