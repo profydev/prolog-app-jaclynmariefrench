@@ -182,14 +182,14 @@ describe("Issue List", () => {
         });
       cy.url().should(
         "include",
-        "issues?level=warning&status=open&project=fro",
+        "issues?project=fro&status=open&level=warning",
       );
 
       //test page reload
       cy.reload();
       cy.url().should(
         "include",
-        "issues?level=warning&status=open&project=fro",
+        "issues?project=fro&status=open&level=warning",
       );
 
       //dropdowns empty to remove a filter
@@ -213,7 +213,7 @@ describe("Issue List", () => {
             cy.get("@currentEl").contains(firstLineOfStackTrace);
           }
         });
-      cy.url().should("include", "issues?level=&status=open&project=fro");
+      cy.url().should("include", "issues?project=fro&status=open&level=");
     });
   });
 });
