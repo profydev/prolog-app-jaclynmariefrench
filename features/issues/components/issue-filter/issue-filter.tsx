@@ -8,102 +8,116 @@ import {
   InputBox,
   InputIcon,
 } from "@features/ui";
-import { IssueLevel, IssueStatus } from "@api/issues.types";
+import { IssueLevel, IssueStatus, IssueFilter } from "@api/issues.types";
 import capitalize from "lodash/capitalize";
 import styles from "./issue-filter.module.scss";
 import { useRouter } from "next/router";
 import { useGetIssues } from "@features/issues";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
+import { useDebounce } from "@uidotdev/usehooks";
 
-export function IssueFilter({ showButton = true }) {
-  const issueLevels = Object.values(IssueLevel).map((level) => ({
-    value: level,
-    label: capitalize(level),
-  }));
+//Zod schema for validation
+const issueFilterSchema = z.object({
+  projectName: z.string().optional(),
+  status: z.nativeEnum(IssueStatus).optional(),
+  level: z.nativeEnum(IssueLevel).optional(),
+});
 
-  const issueStatus = Object.values(IssueStatus).map((status) => ({
-    value: status,
-    label: capitalize(status),
-  }));
+const statusConvertText: { [key in IssueStatus]: string } = {
+  [IssueStatus.open]: "Unresolved",
+  [IssueStatus.resolved]: "Resolved",
+};
+
+const issueLevels = Object.values(IssueLevel).map((level) => ({
+  value: level,
+  label: capitalize(level),
+}));
+
+const issueStatus = Object.values(IssueStatus).map((status) => ({
+  value: status,
+  label: statusConvertText[status] ? statusConvertText[status] : status,
+}));
+
+export function IssueFilterComponent({ showButton = true }) {
   const router = useRouter();
 
-  const projectNameFromUrl = Array.isArray(router.query.project)
-    ? router.query.project[0]
-    : router.query.project;
+  //Initial filter stat with Zod validation
+  const initialFilter = issueFilterSchema.parse({
+    projectName: Array.isArray(router.query.project)
+      ? router.query.project[0]
+      : router.query.project,
+    status:
+      router.query.status === ""
+        ? undefined
+        : (router.query.status as IssueStatus | undefined),
+    level:
+      router.query.level === ""
+        ? undefined
+        : (router.query.level as IssueLevel | undefined),
+  });
 
-  const [search, setSearch] = useState(projectNameFromUrl || "");
-  const [debouncedSearch, setDebouncedSearch] = useState(
-    projectNameFromUrl || "",
-  );
+  const [filter, setFilter] = useState<IssueFilter>(initialFilter);
 
-  const rawStatus = router.query.status;
-  const rawLevel = router.query.level;
-
-  const status =
-    typeof rawStatus === "string" ? (rawStatus as IssueStatus) : undefined;
-  const level =
-    typeof rawLevel === "string" ? (rawLevel as IssueLevel) : undefined;
-
-  const statusRef = useRef<{ setValue: (value: string) => void } | null>(null);
-  const levelRef = useRef<{ setValue: (value: string) => void } | null>(null);
+  //debounce filter state to avoid unnecessary api calls when user is typing in input
+  const debouncedFilter = useDebounce(filter, 500);
 
   useEffect(() => {
-    if (router.isReady && router.query.project) {
-      const projectNameFromUrl = Array.isArray(router.query.project)
-        ? router.query.project[0]
-        : router.query.project;
-
-      setSearch(projectNameFromUrl || "");
-      setDebouncedSearch(projectNameFromUrl || "");
+    if (router.isReady) {
+      const validatedFilter = issueFilterSchema.safeParse({
+        projectName: Array.isArray(router.query.project)
+          ? router.query.project[0]
+          : router.query.project,
+        status: router.query.status as IssueStatus | undefined,
+        level: router.query.level as IssueLevel | undefined,
+      });
+      if (validatedFilter.success) {
+        setFilter(validatedFilter.data);
+      }
     }
-  }, [router.isReady, router.query.project]);
+  }, [router.isReady, router.query]);
 
-  const handleStatusChange = (selectedStatus: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, status: selectedStatus },
-    });
-  };
-
-  const handleLevelChange = (selectedLevel: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, level: selectedLevel },
-    });
-  };
-
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null,
-  );
-
-  const handleSearchChange = (value: string) => {
-    setSearch(value);
-
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-    }
-
-    setSearchTimeout(
-      setTimeout(() => {
-        // Update the URL even when the input is empty
-        router.push({
-          pathname: router.pathname,
-          query: { ...router.query, project: value },
-        });
-        setDebouncedSearch(value);
-      }, 500),
+  const updateQuery = (newFilter: IssueFilter) => {
+    const updatedQuery = {
+      ...router.query,
+      project: newFilter.projectName || undefined,
+      status: newFilter.status,
+      level: newFilter.level,
+    };
+    router.push(
+      {
+        pathname: router.pathname,
+        query: updatedQuery,
+      },
+      undefined,
+      { shallow: true },
     );
   };
 
-  useEffect(() => {
-    return () => {
-      if (searchTimeout) {
-        clearTimeout(searchTimeout);
-      }
-    };
-  }, [searchTimeout]);
+  const handleStatusChange = (selectedStatus: string) => {
+    const newFilter = { ...filter, status: selectedStatus as IssueStatus };
+    setFilter(newFilter);
+    updateQuery(newFilter);
+  };
 
-  useGetIssues(1, status, level, debouncedSearch);
+  const handleLevelChange = (selectedLevel: string) => {
+    const newFilter = { ...filter, level: selectedLevel as IssueLevel };
+    setFilter(newFilter);
+    updateQuery(newFilter);
+  };
+
+  const handleSearchChange = (value: string) => {
+    const newFilter = { ...filter, projectName: value };
+    setFilter(newFilter);
+    updateQuery(newFilter);
+  };
+
+  useGetIssues(
+    1,
+    debouncedFilter.status,
+    debouncedFilter.level,
+    debouncedFilter.projectName,
+  );
 
   return (
     <div className={styles.filterContainer}>
@@ -125,7 +139,6 @@ export function IssueFilter({ showButton = true }) {
           dataTestId="status-select"
           data-test-test="tester"
           classNames={{ button: styles.selectFilter }}
-          ref={statusRef}
           options={issueStatus}
           onChange={handleStatusChange}
           placeholder="Status"
@@ -135,7 +148,6 @@ export function IssueFilter({ showButton = true }) {
         <SelectBox
           dataTestId="level-select"
           classNames={{ button: styles.selectFilter }}
-          ref={levelRef}
           options={issueLevels}
           onChange={handleLevelChange}
           placeholder="Level"
@@ -144,11 +156,11 @@ export function IssueFilter({ showButton = true }) {
         <InputBox
           dataTestId="search-input"
           onChange={handleSearchChange}
-          initialValue={search}
+          initialValue={filter.projectName}
           placeholder="Project Name"
           disabled={false}
           classNames={{ input: styles.inputFilter }}
-          icon=<InputIcon src="/icons/search.svg" />
+          icon={<InputIcon src="/icons/search.svg" />}
         />
       </div>
     </div>

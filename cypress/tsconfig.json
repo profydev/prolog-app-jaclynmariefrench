@@ -6,7 +6,8 @@
     // be explicit about types included
     // to avoid clashing with Jest types
     "types": ["cypress", "node"],
-    "isolatedModules": false
+    "isolatedModules": false,
+    "strict": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
