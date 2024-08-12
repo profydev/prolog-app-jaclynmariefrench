@@ -15,51 +15,21 @@ export function getQueryKey(
   return [QUERY_KEY, page, status, level, project];
 }
 
-// Function to transform IssueStatus to API status
-function toApiIssueStatus(status: IssueStatus | undefined): string | undefined {
-  switch (status) {
-    case IssueStatus.unresolved:
-      return "open";
-    case IssueStatus.resolved:
-      return "resolved";
-    default:
-      return undefined;
-  }
-}
-
-// Function to transform API status to IssueStatus
-function fromApiIssueStatus(
-  status: string | undefined,
-): IssueStatus | undefined {
-  switch (status) {
-    case "open":
-      return IssueStatus.unresolved;
-    case "resolved":
-      return IssueStatus.resolved;
-    case IssueStatus.unresolved:
-      return status;
-    default:
-      return undefined;
-  }
-}
-
-// Use the new functions in useGetIssues
 export function useGetIssues(
   page: number,
   status?: IssueStatus,
   level?: IssueLevel,
   project?: string,
 ) {
-  const apiStatus = toApiIssueStatus(status);
   const query = useQuery<Page<Issue>, Error>(
     getQueryKey(page, status, level, project),
-    ({ signal }) => getIssues(page, apiStatus, level, project, { signal }),
+    ({ signal }) => getIssues(page, status, level, project, { signal }),
     {
       keepPreviousData: true,
       select: (data) => {
         data.items = data.items.map((issue) => ({
           ...issue,
-          status: fromApiIssueStatus(issue.status),
+          status: issue.status,
         }));
         return data;
       },
@@ -73,7 +43,7 @@ export function useGetIssues(
       queryClient.prefetchQuery(
         getQueryKey(page + 1, status, level, project),
         ({ signal }) =>
-          getIssues(page + 1, toApiIssueStatus(status), level, project, {
+          getIssues(page + 1, status, level, project, {
             signal,
           }),
       );

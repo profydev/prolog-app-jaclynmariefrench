@@ -37,7 +37,7 @@ export function IssueRow({
   return (
     <tr className={styles.row}>
       <td className={styles.issueCell}>
-        {status === IssueStatus.unresolved && (
+        {status === IssueStatus.open && (
           <Checkbox
             size={CheckboxSize.Small}
             checked={isChecked}
